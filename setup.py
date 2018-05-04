@@ -6,8 +6,7 @@ from setuptools import setup
 with open('README.md') as readme_file:
     readme = readme_file.read()
 
-with open('CHANGELOG.md') as history_file:
-    history = history_file.read()
+history = ""
 
 with open('dev-requirements.txt') as dev_requirements_file:
     tests_require = [r.strip() for r in dev_requirements_file.readlines()]
