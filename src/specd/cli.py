@@ -23,6 +23,7 @@ def cli():
     "--format", "-f", type=click.Choice(["json", "yaml"]), default="yaml"
 )
 def convert(input_file, output_specd, format):
+    """convert a specification file into a specd."""
     input_file = click.format_filename(input_file)
     output_specd = click.format_filename(output_specd)
     tasks.convert_file_to_specd(input_file, output_specd, format)
@@ -35,7 +36,7 @@ def convert(input_file, output_specd, format):
     type=click.Path(dir_okay=False, resolve_path=True),
 )
 def generate(output_file):
-    """generate a JSON version"""
+    """create specification file from current specd."""
     input_dir = os.getcwd()
     output_file = click.format_filename(output_file)
     tasks.convert_specd_to_file(input_dir, output_file)
@@ -43,6 +44,7 @@ def generate(output_file):
 
 @cli.command()
 def validate():
+    """validate current specd project."""
     input_dir = os.getcwd()
     error_message = tasks.validate_specd(input_dir)
     if error_message:
@@ -54,6 +56,7 @@ def validate():
 
 @cli.command()
 def swagger():
+    """start a flask app for swagger UI."""
     create_app(include_swagger=True).run()
 
 
