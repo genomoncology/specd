@@ -34,3 +34,14 @@ clean-test:
 	rm -fr .pytest_cache
 	rm -f .coverage
 	rm -fr htmlcov/
+
+#----------
+# publish
+#----------
+
+publish:
+	pip install 'twine>=1.5.0'
+	python setup.py sdist
+	python setup.py bdist_wheel --universal
+	twine upload dist/*
+	rm -fr build dist .egg related.egg-info
