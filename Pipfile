@@ -1,0 +1,29 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+click = "*"
+flask-swagger-ui = "*"
+swagger-spec-validator = "*"
+pyyaml = "*"
+
+
+[dev-packages]
+
+pytest = "*"
+white = "*"
+"pytest-flake8" = "*"
+pytest-cov = "*"
+pytest-mccabe = "*"
+ipython = "*"
+black = "*"
+
+
+[requires]
+
+python_version = "3.6"
