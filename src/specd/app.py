@@ -4,12 +4,12 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from .model import SpecDir
 
 
-def add_swagger(app):
+def add_swagger(app, host, name):
     UI_URL = "/ui"
-    DOC_URL = "/doc"
+    DOC_URL = f"/doc?host={host}" if host else "/doc"
 
     swagger_blueprint = get_swaggerui_blueprint(
-        UI_URL, DOC_URL, config={"app_name": "specd"}
+        UI_URL, DOC_URL, config={"app_name": name or "Swagger UI"}
     )
 
     @app.route("/")
@@ -31,12 +31,12 @@ def add_swagger(app):
     app.register_blueprint(swagger_blueprint, url_prefix=UI_URL)
 
 
-def create_app(include_swagger=True):
+def create_app(include_swagger=True, host=None, name=None):
     app = Flask(__name__)
     app.config["TESTING"] = True
     app.config["ENV"] = "swagger"
 
     if include_swagger:
-        add_swagger(app)
+        add_swagger(app, host, name)
 
     return app
