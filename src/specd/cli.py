@@ -60,9 +60,10 @@ def validate():
 @cli.command()
 @click.option("--host", "-h", default=None)
 @click.option("--name", "-n", default=None)
-def swagger(host, name):
+@click.option("--target", "-t", multiple=True)
+def swagger(host, name, target):
     """start a flask app for swagger UI."""
-    create_app(include_swagger=True, host=host, name=name).run()
+    create_app(include_swagger=True, host=host, name=name, target=target).run()
 
 
 @cli.command()

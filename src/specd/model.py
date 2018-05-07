@@ -81,13 +81,17 @@ class SpecDir(object):
         return Path(self, url)
 
     def find_definitions(self, spec: dict):
-        for (key, value) in spec.items():
-            if key == "$ref" and isinstance(value, str) and value:
-                yield value.split("/")[-1]
+        for (key, value_) in spec.items():
+            # (clever code warning) support descent into lists
+            value_ = value_ if isinstance(value_, list) else [value_]
 
-            elif isinstance(value, dict):
-                for definition in self.find_definitions(value):
-                    yield definition
+            for value in value_:
+                if key == "$ref" and isinstance(value, str) and value:
+                    yield value.split("/")[-1]
+
+                elif isinstance(value, dict):
+                    for definition in self.find_definitions(value):
+                        yield definition
 
     def paths_as_dict(self, targets):
         paths = {}
@@ -172,7 +176,10 @@ class Meta(object):
         self.spec_dir.write_file(spec=spec, file_path=self.file_path)
 
     def read(self):
-        return self.spec_dir.read_file(file_path=self.file_path)
+        spec = self.spec_dir.read_file(file_path=self.file_path)
+        if "schemes" not in spec:
+            spec["schemes"] = ["https", "http"]
+        return spec
 
 
 class Path(object):
