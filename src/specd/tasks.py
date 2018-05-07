@@ -1,6 +1,7 @@
 import os
-import click
 
+import click
+from dictdiffer import diff
 from swagger_spec_validator import validator20, SwaggerValidationError
 
 from .model import SpecDir, Path, Operation, Definition
@@ -66,3 +67,41 @@ def validate_specd(input_dir: str) -> str:
         error_message = e.args[0].split("\n")[0]
 
     return error_message
+
+
+def get_spec_dict(item: str) -> dict:
+    if os.path.isfile(item):
+        spec_dict = file_path_to_dict(item)
+    else:
+        spec_dict = SpecDir(item).as_dict()
+
+    return spec_dict
+
+
+def get_dict_paths(d: dict):
+    for defn in d.get("definitions", {}):
+        yield ("definitions", defn)
+
+    for url, spec in d.get("paths", {}).items():
+        for operation in spec:
+            yield ("paths", url, operation)
+
+
+def resolve(d: dict, keys):
+    for key in keys:
+        d = d[key]
+    return d
+
+
+def diff_specifications(one, two):
+    one = get_spec_dict(one)
+    two = get_spec_dict(two)
+
+    overlaps = set(get_dict_paths(one)).intersection(set(get_dict_paths(two)))
+
+    diffs = {}
+    for keys in overlaps:
+        delta = list(diff(resolve(one, keys), resolve(two, keys)))
+        diffs[keys] = delta
+
+    return diffs

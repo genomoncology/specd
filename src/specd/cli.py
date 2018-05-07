@@ -1,5 +1,6 @@
 import os
 import sys
+import pprint
 
 import click
 
@@ -58,6 +59,26 @@ def validate():
 def swagger():
     """start a flask app for swagger UI."""
     create_app(include_swagger=True).run()
+
+
+@cli.command()
+@click.argument("one", type=click.Path(exists=True, resolve_path=True))
+@click.argument("two", type=click.Path(exists=True, resolve_path=True))
+def diff(one, two):
+    """show path/defn differences between two specs."""
+    one = click.format_filename(one)
+    two = click.format_filename(two)
+    click.echo(f"diff: {one} & {two}")
+    result = tasks.diff_specifications(one, two)
+
+    for (keys, value) in result.items():
+        for key in keys:
+            click.echo(f"{key} > ", nl=False)
+        if value:
+            print("Diff")
+            pprint.pprint(value, indent=6, width=120, depth=5)
+        else:
+            print("Same")
 
 
 if __name__ == "__main__":

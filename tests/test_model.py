@@ -77,4 +77,4 @@ def test_merge_dicts():
     dict1 = {1: {"a": "A"}, 2: {"b": "B"}}
     dict2 = {2: {"c": "C"}, 3: {"d": "D"}}
     merged = dict(merge_dicts(dict1, dict2))
-    assert merged == {1: {'a': 'A'}, 2: {'c': 'C', 'b': 'B'}, 3: {'d': 'D'}}
+    assert merged == {1: {"a": "A"}, 2: {"c": "C", "b": "B"}, 3: {"d": "D"}}

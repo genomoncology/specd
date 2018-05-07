@@ -94,3 +94,14 @@ def test_check_for_not_a_specd():
     with tempfile.TemporaryDirectory() as output_specd:
         msg = tasks.validate_specd(output_specd)
         assert msg == f"Not in a valid specd root directory: {output_specd}"
+
+
+def test_check_diff():
+    with tempfile.TemporaryDirectory() as spec_dir:
+        f = os.path.join(os.path.dirname(__file__), "petstore.json")
+        tasks.convert_file_to_specd(f, spec_dir, "yaml")
+
+        spec_file = os.path.join(os.path.dirname(__file__), "petstore.yaml")
+
+        diffs = tasks.diff_specifications(spec_dir, spec_file)
+        assert diffs.keys() == {("definitions", "Pet")}

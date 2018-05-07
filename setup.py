@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.1.1',
+    version='0.1.2',
 
     package_dir={
         '': 'src'
@@ -29,10 +29,11 @@ setup(
     },
 
     install_requires=[
-        "click==6.7",
-        "flask-swagger-ui==3.6.0",
-        "swagger-spec-validator==2.1.0",
-        "PyYAML==3.12",
+        "click >= 6.7",
+        "flask-swagger-ui >= 3.6.0",
+        "swagger-spec-validator >= 2.1.0",
+        "PyYAML >= 3.12",
+        "dictdiffer >= 0.7.1",
     ],
 
     setup_requires=[

@@ -4,8 +4,8 @@ from .app import create_app
 __all__ = ("SpecDir", "create_app", "tasks")
 
 __author__ = """Ian Maurer"""
-__email__ = 'ian@genomoncology.com'
-__version__ = '0.1.1'
+__email__ = "ian@genomoncology.com"
+__version__ = "0.1.2"
 
 __uri__ = "http://www.github.com/genomoncology/specd"
 __copyright__ = "Copyright (c) 2018 genomoncology.com"

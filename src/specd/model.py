@@ -1,3 +1,4 @@
+import typing
 import enum
 import os
 import re
@@ -54,7 +55,7 @@ class SpecDir(object):
         file_handle.close()
         return self.to_spec(content_str)
 
-    def definitions(self):
+    def definitions(self) -> typing.List["Definition"]:
         return [
             self.get_definition(name)
             for name in get_file_names(self.abspath(Definition.DEFINITIONS))
@@ -64,7 +65,7 @@ class SpecDir(object):
         name = name_or_filename.split(".")[0]
         return Definition(self, name)
 
-    def paths(self):
+    def paths(self) -> typing.List["Path"]:
         paths = []
         paths_root = self.abspath(Path.PATHS)
         for path, _, file_names in os.walk(paths_root):
@@ -73,7 +74,7 @@ class SpecDir(object):
                 paths.append(self.get_path(url))
         return paths
 
-    def get_path(self, url):
+    def get_path(self, url: str) -> "Path":
         return Path(self, url)
 
     def as_dict(self):

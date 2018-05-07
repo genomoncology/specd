@@ -11,6 +11,7 @@ click = "*"
 flask-swagger-ui = "*"
 swagger-spec-validator = "*"
 pyyaml = "*"
+dictdiffer = "*"
 
 
 [dev-packages]
