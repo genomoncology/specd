@@ -36,11 +36,13 @@ def convert(input_file, output_specd, format):
     "output_specd",
     type=click.Path(dir_okay=False, resolve_path=True),
 )
-def generate(output_file):
+@click.option("--target", "-t", multiple=True)
+def generate(output_file, target):
     """create specification file from current specd."""
     input_dir = os.getcwd()
     output_file = click.format_filename(output_file)
-    tasks.convert_specd_to_file(input_dir, output_file)
+    output_file = None if os.path.basename(output_file) == '-' else output_file
+    tasks.convert_specd_to_file(input_dir, output_file, target)
 
 
 @cli.command()

@@ -1,0 +1,11 @@
+properties:
+  id:
+    format: int64
+    type: integer
+  name:
+    type: string
+  tag:
+    type: string
+required:
+- id
+- name

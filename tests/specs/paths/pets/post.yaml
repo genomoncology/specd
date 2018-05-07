@@ -1,0 +1,14 @@
+operationId: createPets
+responses:
+  '201':
+    description: Null response
+  default:
+    description: unexpected error
+    schema:
+      $ref: '#/definitions/Error'
+summary: Create a pet
+tags:
+- pets
+targets:
+- published
+- posts

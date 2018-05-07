@@ -1,0 +1,14 @@
+basePath: /v1
+consumes:
+- application/json
+host: petstore.swagger.io
+info:
+  license:
+    name: MIT
+  title: Swagger Petstore
+  version: 1.0.0
+produces:
+- application/json
+schemes:
+- http
+swagger: '2.0'

@@ -1,4 +1,5 @@
 import os
+import typing
 
 import click
 from dictdiffer import diff
@@ -40,16 +41,26 @@ def convert_file_to_specd(input_file: str, output_specd: SpecDir, format: str):
         spec_dir.meta.write(input_spec)
 
 
-def convert_specd_to_file(input_dir: str, output_file: str):
+def guess_format(output_file):
+    return os.path.splitext(output_file)[-1][1:] if output_file else "json"
+
+
+def convert_specd_to_file(
+    input_dir: str, output_file: str, targets: typing.List[str] = None,
+    format: str = None
+):
     spec_dir = SpecDir(input_dir)
     assert spec_dir.exists(), f"Specd not found: {input_dir}"
 
-    format = os.path.splitext(output_file)[-1][1:]
-    spec_str = spec_dir.as_str(format)
+    format = format or guess_format(output_file)
+    spec_str = spec_dir.as_str(format, targets)
 
-    file_handler = open(output_file, "w+")
-    file_handler.write(spec_str)
-    file_handler.close()
+    if output_file:
+        file_handler = open(output_file, "w+")
+        file_handler.write(spec_str)
+        file_handler.close()
+    else:
+        click.echo(spec_str)  # pragma: no cover
 
 
 def validate_specd(input_dir: str) -> str:

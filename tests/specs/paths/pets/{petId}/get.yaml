@@ -1,0 +1,22 @@
+operationId: showPetById
+parameters:
+- description: The id of the pet to retrieve
+  in: path
+  name: petId
+  required: true
+  type: string
+responses:
+  '200':
+    description: Expected response to a valid request
+    schema:
+      $ref: '#/definitions/Pets'
+  default:
+    description: unexpected error
+    schema:
+      $ref: '#/definitions/Error'
+summary: Info for a specific pet
+tags:
+- pets
+targets:
+- published
+- gets

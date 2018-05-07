@@ -65,6 +65,9 @@ class SpecDir(object):
         name = name_or_filename.split(".")[0]
         return Definition(self, name)
 
+    def get_definition_map(self):
+        return dict([(d.name, d) for d in self.definitions()])
+
     def paths(self) -> typing.List["Path"]:
         paths = []
         paths_root = self.abspath(Path.PATHS)
@@ -77,24 +80,62 @@ class SpecDir(object):
     def get_path(self, url: str) -> "Path":
         return Path(self, url)
 
-    def as_dict(self):
-        spec = self.meta.read()
+    def find_definitions(self, spec: dict):
+        for (key, value) in spec.items():
+            if key == "$ref" and isinstance(value, str) and value:
+                yield value.split("/")[-1]
 
-        spec["paths"] = {}
+            elif isinstance(value, dict):
+                for definition in self.find_definitions(value):
+                    yield definition
+
+    def paths_as_dict(self, targets):
+        paths = {}
+        found_definitions = set()
+        all_ops = (targets == set())
+
         for path in self.paths():
             path_spec = {}
+
             for operation in path.operations():
-                path_spec[operation.method] = operation.read()
-            spec["paths"][path.url] = path_spec
+                op_spec = operation.read()
+                op_targets = op_spec.pop("targets", set())
+                if all_ops or (targets.intersection(op_targets)):
+                    path_spec[operation.method] = op_spec
+                    found_definitions.update(self.find_definitions(op_spec))
 
-        spec["definitions"] = {}
-        for definition in self.definitions():
-            spec["definitions"][definition.name] = definition.read()
+            if path_spec:
+                paths[path.url] = path_spec
 
+        return (paths, found_definitions)
+
+    def definitions_as_dict(self, found_definitions):
+        all_definitions = self.get_definition_map()
+        result = {}
+        next_round = found_definitions
+
+        while next_round:
+            this_round = next_round
+            next_round = set()
+            for name in this_round:
+                def_spec = all_definitions.get(name).read()
+                result[name] = def_spec
+
+                for found_name in self.find_definitions(def_spec):
+                    if found_name not in result:
+                        next_round.add(found_name)
+
+        return result
+
+    def as_dict(self, targets=None):
+        targets = set(targets or [])
+        spec = self.meta.read()
+        (spec["paths"], found_definitions) = self.paths_as_dict(targets)
+        spec["definitions"] = self.definitions_as_dict(found_definitions)
         return spec
 
-    def as_str(self, format):
-        return dict_to_str(self.as_dict(), format)
+    def as_str(self, format, targets=None):
+        return dict_to_str(self.as_dict(targets), format)
 
 
 class Meta(object):
