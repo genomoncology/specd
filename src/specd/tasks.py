@@ -46,8 +46,10 @@ def guess_format(output_file):
 
 
 def convert_specd_to_file(
-    input_dir: str, output_file: str, targets: typing.List[str] = None,
-    format: str = None
+    input_dir: str,
+    output_file: str,
+    targets: typing.List[str] = None,
+    format: str = None,
 ):
     spec_dir = SpecDir(input_dir)
     assert spec_dir.exists(), f"Specd not found: {input_dir}"
@@ -116,3 +118,20 @@ def diff_specifications(one, two):
         diffs[keys] = delta
 
     return diffs
+
+
+def list_specd(input_dir: str):
+    spec_dir = SpecDir(input_dir)
+    assert spec_dir.exists(), f"Specd not found: {input_dir}"
+
+    collect = []
+    defns = sorted([f"    {d.name}" for d in spec_dir.definitions()])
+    if defns:
+        collect += ["\n  Definitions:\n"] + defns
+
+    paths = sorted([f"    {p.url}: {p.methods}" for p in spec_dir.paths()])
+    if paths:
+        collect += ["\n  Paths:\n"] + paths
+
+    click.echo("\n".join(collect))
+    click.echo()

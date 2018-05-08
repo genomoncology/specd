@@ -204,6 +204,10 @@ class Path(object):
         method = method_or_filename.split(".")[0]
         return Operation(self.spec_dir, self, method)
 
+    @property
+    def methods(self):
+        return ", ".join([op.method for op in self.operations()])
+
 
 class Operation(object):
 

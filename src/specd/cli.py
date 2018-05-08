@@ -41,7 +41,7 @@ def generate(output_file, target):
     """create specification file from current specd."""
     input_dir = os.getcwd()
     output_file = click.format_filename(output_file)
-    output_file = None if os.path.basename(output_file) == '-' else output_file
+    output_file = None if os.path.basename(output_file) == "-" else output_file
     tasks.convert_specd_to_file(input_dir, output_file, target)
 
 
@@ -84,6 +84,13 @@ def diff(one, two):
             pprint.pprint(value, indent=6, width=120, depth=5)
         else:
             print("Same")
+
+
+@cli.command()
+def ls():
+    """list definitions and paths for current specd"""
+    input_dir = os.getcwd()
+    tasks.list_specd(input_dir)
 
 
 if __name__ == "__main__":
