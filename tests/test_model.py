@@ -9,7 +9,7 @@ def test_model_yaml():
         spec_dir = SpecDir(root=root_dir, default_format="yaml")
         assert spec_dir.format == "yaml"
 
-        spec = dict(a=1, b=dict(c="a"))
+        spec = dict(a=1, b=dict(c="a"), schemes=["http"])
         assert spec_dir.to_spec(spec_dir.to_str(spec)) == spec
 
         assert spec_dir.meta.file_name == "specd.yaml"
@@ -24,7 +24,7 @@ def test_model_json():
         spec_dir = SpecDir(root=root_dir, default_format="json")
         assert spec_dir.format == "json"
 
-        spec = dict(a=1, b=dict(c="a"))
+        spec = dict(a=1, b=dict(c="a"), schemes=["http"])
         assert spec_dir.to_spec(spec_dir.to_str(spec)) == spec
 
         assert spec_dir.meta.file_name == "specd.json"
@@ -54,6 +54,7 @@ def test_model_paths():
 
         assert len(path.operations()) == 1
         assert path.get_operation("get").read() == spec
+        assert path.methods == "get"
 
         assert not path.get_operation("post").exists()
 

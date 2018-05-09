@@ -12,6 +12,7 @@ flask-swagger-ui = "*"
 swagger-spec-validator = "*"
 pyyaml = "*"
 dictdiffer = "*"
+inflect = "*"
 
 
 [dev-packages]

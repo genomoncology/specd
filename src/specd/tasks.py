@@ -6,7 +6,8 @@ from dictdiffer import diff
 from swagger_spec_validator import validator20, SwaggerValidationError
 
 from .model import SpecDir, Path, Operation, Definition
-from .utils import file_path_to_dict
+from .utils import file_path_to_dict, str_to_dict
+from .walker import generate_definitions
 
 
 def convert_file_to_specd(input_file: str, output_specd: SpecDir, format: str):
@@ -125,13 +126,31 @@ def list_specd(input_dir: str):
     assert spec_dir.exists(), f"Specd not found: {input_dir}"
 
     collect = []
-    defns = sorted([f"    {d.name}" for d in spec_dir.definitions()])
+    defns = sorted([f"\t\t{d.name}" for d in spec_dir.definitions()])
     if defns:
-        collect += ["\n  Definitions:\n"] + defns
+        collect += ["\n\tDefinitions:\n"] + defns
 
-    paths = sorted([f"    {p.url}: {p.methods}" for p in spec_dir.paths()])
+    paths = sorted([f"\t\t{p.url}: {p.methods}" for p in spec_dir.paths()])
     if paths:
-        collect += ["\n  Paths:\n"] + paths
+        collect += ["\n\tPaths:\n"] + paths
+    return collect
 
-    click.echo("\n".join(collect))
-    click.echo()
+
+def create_definitions(input_dir: str, name: str, input_data: str):
+    spec_dir = SpecDir(input_dir)
+    assert spec_dir.exists(), f"Specd not found: {input_dir}"
+
+    data_dict = str_to_dict(input_data)
+    definitions = []
+    for definition in generate_definitions(name, data_dict):
+        print(f"Writing Definition: {definition.name}")
+        defn = Definition(spec_dir=spec_dir, name=definition.name)
+        defn.write(definition.properties)
+        definitions.append(defn)
+    return definitions
+
+
+def create_specd(input_dir: str):
+    spec_dir = SpecDir(input_dir)
+    spec_dir.meta.write({})
+    return spec_dir

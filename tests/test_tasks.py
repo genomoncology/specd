@@ -105,3 +105,62 @@ def test_check_diff():
 
         diffs = tasks.diff_specifications(spec_dir, spec_file)
         assert diffs.keys() == {("definitions", "Pet")}
+
+
+def test_list_specd():
+    with tempfile.TemporaryDirectory() as output_specd:
+        input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml")
+
+        collect = tasks.list_specd(output_specd)
+        assert (
+            collect
+            == [
+                "\n\tDefinitions:\n",
+                "\t\tApiResponse",
+                "\t\tCategory",
+                "\t\tOrder",
+                "\t\tPet",
+                "\t\tTag",
+                "\t\tUser",
+                "\n\tPaths:\n",
+                "\t\t/pet/findByStatus: get",
+                "\t\t/pet/findByTags: get",
+                "\t\t/pet/{petId}/uploadImage: post",
+                "\t\t/pet/{petId}: delete, get, post",
+                "\t\t/pet: put, post",
+                "\t\t/store/inventory: get",
+                "\t\t/store/order/{orderId}: delete, get",
+                "\t\t/store/order: post",
+                "\t\t/user/createWithArray: post",
+                "\t\t/user/createWithList: post",
+                "\t\t/user/login: get",
+                "\t\t/user/logout: get",
+                "\t\t/user/{username}: put, delete, get",
+                "\t\t/user: post",
+            ]
+        )
+
+
+def test_create_definitions():
+    with tempfile.TemporaryDirectory() as input_dir:
+        spec_dir = tasks.create_specd(input_dir)
+        input_file = os.path.join(os.path.dirname(__file__), "book.json")
+        input_data = open(input_file).read()
+
+        definitions = tasks.create_definitions(input_dir, "Book", input_data)
+        assert len(definitions) == 11
+        assert len(spec_dir.definitions()) == 11
+        assert set([d.name for d in definitions]) == {
+            "Book",
+            "BookAuthor",
+            "BookClassification",
+            "BookCover",
+            "BookEbook",
+            "BookEbookFormat",
+            "BookIdentifier",
+            "BookPublishPlace",
+            "BookPublisher",
+            "BookSubject",
+            "BookTableOfContent",
+        }

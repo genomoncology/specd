@@ -90,7 +90,19 @@ def diff(one, two):
 def ls():
     """list definitions and paths for current specd"""
     input_dir = os.getcwd()
-    tasks.list_specd(input_dir)
+    collect = tasks.list_specd(input_dir)
+    click.echo("\n".join(collect))
+    click.echo()
+
+
+@cli.command()
+@click.argument("name")
+def define(name):
+    import sys
+
+    data = sys.stdin.read()
+    input_dir = os.getcwd()
+    tasks.create_definitions(input_dir, name, data)
 
 
 if __name__ == "__main__":
