@@ -13,6 +13,7 @@ swagger-spec-validator = "*"
 pyyaml = "*"
 dictdiffer = "*"
 inflect = "*"
+related = "*"
 
 
 [dev-packages]

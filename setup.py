@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.1.2',
+    version='0.1.3',
 
     package_dir={
         '': 'src'
@@ -34,6 +34,7 @@ setup(
         "swagger-spec-validator >= 2.1.0",
         "PyYAML >= 3.12",
         "dictdiffer >= 0.7.1",
+        "related >= 0.6.3",
     ],
 
     setup_requires=[
