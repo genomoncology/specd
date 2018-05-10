@@ -206,7 +206,7 @@ class Path(object):
 
     @property
     def methods(self):
-        return ", ".join([op.method for op in self.operations()])
+        return ", ".join(sorted([op.method for op in self.operations()]))
 
 
 class Operation(object):

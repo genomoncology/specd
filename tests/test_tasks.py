@@ -128,7 +128,7 @@ def test_list_specd():
                 "\t\t/pet/findByTags: get",
                 "\t\t/pet/{petId}/uploadImage: post",
                 "\t\t/pet/{petId}: delete, get, post",
-                "\t\t/pet: put, post",
+                "\t\t/pet: post, put",
                 "\t\t/store/inventory: get",
                 "\t\t/store/order/{orderId}: delete, get",
                 "\t\t/store/order: post",
@@ -136,7 +136,7 @@ def test_list_specd():
                 "\t\t/user/createWithList: post",
                 "\t\t/user/login: get",
                 "\t\t/user/logout: get",
-                "\t\t/user/{username}: put, delete, get",
+                "\t\t/user/{username}: delete, get, put",
                 "\t\t/user: post",
             ]
         )
