@@ -35,6 +35,7 @@ setup(
         "PyYAML >= 3.12",
         "dictdiffer >= 0.7.1",
         "related >= 0.6.3",
+        "inflect >= 0.3.1",
     ],
 
     setup_requires=[
