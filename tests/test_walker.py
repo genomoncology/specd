@@ -12,7 +12,7 @@ from specd.walker import generate_definitions, generate_for_array, Definition
 def test_generate_for_array():
     publishers = [{"name": "Addison-Wesley"}]
     dfn = list(generate_for_array("Book", "publishers", publishers))
-    expected_props = {"name": {"format": "char", "type": "string"}}
+    expected_props = {"name": {"type": "string"}}
     assert dfn == [Definition("BookPublisher", expected_props)]
 
 
@@ -34,7 +34,7 @@ def test_generate_for_array_complex():
                 "name": "BookEbookFormatMobi",
                 "properties": {
                     "another": {"format": "int64", "type": "integer"},
-                    "site": {"format": "char", "type": "string"},
+                    "site": {"type": "string"},
                 },
             },
             {
@@ -49,7 +49,7 @@ def test_generate_for_array_complex():
             {
                 "name": "BookEbook",
                 "properties": {
-                    "availability": {"format": "char", "type": "string"},
+                    "availability": {"type": "string"},
                     "formats": {
                         "$ref": "#/definitions/BookEbookFormat",
                         "type": "object",

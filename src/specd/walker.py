@@ -4,7 +4,7 @@ import inflect
 import related
 
 TYPE_META_MAPPING = {
-    str: {"format": "char", "type": "string"},
+    str: {"type": "string"},
     bool: {"format": "boolean", "type": "boolean"},
     int: {"format": "int64", "type": "integer"},
     float: {"format": "double", "type": "number"},
