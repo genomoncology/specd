@@ -151,16 +151,19 @@ def test_create_definitions():
         definitions = tasks.create_definitions(input_dir, "Book", input_data)
         assert len(definitions) == 11
         assert len(spec_dir.definitions()) == 11
-        assert set([d.name for d in definitions]) == {
-            "Book",
-            "BookAuthor",
-            "BookClassification",
-            "BookCover",
-            "BookEbook",
-            "BookEbookFormat",
-            "BookIdentifier",
-            "BookPublishPlace",
-            "BookPublisher",
-            "BookSubject",
-            "BookTableOfContent",
-        }
+        assert (
+            set([d.name for d in definitions])
+            == {
+                "Book",
+                "BookAuthor",
+                "BookClassification",
+                "BookCover",
+                "BookEbook",
+                "BookEbookFormat",
+                "BookIdentifier",
+                "BookPublishPlace",
+                "BookPublisher",
+                "BookSubject",
+                "BookTableOfContent",
+            }
+        )

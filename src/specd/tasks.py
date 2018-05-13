@@ -5,7 +5,7 @@ import click
 from dictdiffer import diff
 from swagger_spec_validator import validator20, SwaggerValidationError
 
-from .model import SpecDir, Path, Operation, Definition
+from .model import SpecDir, Path, Operation, Definition, create_spec_dict
 from .utils import file_path_to_dict, str_to_dict
 from .walker import generate_definitions
 
@@ -87,7 +87,7 @@ def get_spec_dict(item: str) -> dict:
     if os.path.isfile(item):
         spec_dict = file_path_to_dict(item)
     else:
-        spec_dict = SpecDir(item).as_dict()
+        spec_dict = create_spec_dict(item)
 
     return spec_dict
 

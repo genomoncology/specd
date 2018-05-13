@@ -271,6 +271,7 @@ class Definition(object):
 
 
 def get_file_names(abspath):
+    os.makedirs(abspath, exist_ok=True)
     return [
         fn
         for fn in os.listdir(abspath)
@@ -290,3 +291,13 @@ def merge_dicts(dict1, dict2):
             yield (k, dict1[k])
         else:
             yield (k, dict2[k])
+
+
+def create_spec_dict(specd_path: str, targets: list = None, host: str = None):
+
+    spec_dict = SpecDir(specd_path).as_dict(targets=targets)
+
+    if host:
+        spec_dict["host"] = host
+
+    return spec_dict

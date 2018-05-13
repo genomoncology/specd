@@ -1,11 +1,12 @@
-from .model import SpecDir
+from .model import SpecDir, create_spec_dict
 from .app import create_app
+from . import tasks
 
-__all__ = ("SpecDir", "create_app", "tasks")
+__all__ = ("SpecDir", "create_spec_dict", "create_app", "tasks")
 
 __author__ = """Ian Maurer"""
 __email__ = "ian@genomoncology.com"
-__version__ = "0.1.3"
+__version__ = "0.1.5"
 
 __uri__ = "http://www.github.com/genomoncology/specd"
 __copyright__ = "Copyright (c) 2018 genomoncology.com"

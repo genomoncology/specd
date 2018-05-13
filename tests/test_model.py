@@ -1,7 +1,14 @@
 import tempfile
 import os
 
-from specd.model import SpecDir, Path, Operation, Definition, merge_dicts
+from specd.model import (
+    SpecDir,
+    Path,
+    Operation,
+    Definition,
+    merge_dicts,
+    create_spec_dict,
+)
 
 
 def test_model_yaml():
@@ -17,6 +24,21 @@ def test_model_yaml():
 
         spec_dir.meta.write(spec)
         assert spec_dir.meta.read() == spec
+
+        spec_dict = create_spec_dict(root_dir, host="example.com")
+        print(spec_dict)
+
+        assert (
+            spec_dict
+            == {
+                "a": 1,
+                "b": {"c": "a"},
+                "schemes": ["http"],
+                "paths": {},
+                "definitions": {},
+                "host": "example.com",
+            }
+        )
 
 
 def test_model_json():
