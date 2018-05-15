@@ -6,7 +6,7 @@ test:
 
 white:
 	pipenv run white ./tests/*.py
-	pipenv run white ./src/**/*.py
+	pipenv run white ./src/
 
 
 #----------
