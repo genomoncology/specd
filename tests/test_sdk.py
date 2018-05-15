@@ -47,6 +47,7 @@ def test_model_instantiate(sdk):
 
 def test_override_models_module(specd_path):
     from . import pet_models
+
     sdk = create_sdk(specd_path, models=pet_models)
 
     pet = sdk.instantiate(sdk.definitions.Pet, RESPONSE)
@@ -56,6 +57,7 @@ def test_override_models_module(specd_path):
 
 def test_override_models_class(specd_path):
     from .pet_models import Pet
+
     sdk = create_sdk(specd_path, models=[Pet])
 
     pet = sdk.instantiate(sdk.definitions.Pet, RESPONSE)
@@ -65,6 +67,7 @@ def test_override_models_class(specd_path):
 
 def test_override_models_dict(specd_path):
     from .pet_models import Pet
+
     sdk = create_sdk(specd_path, models=dict(Pet=Pet))
 
     pet = sdk.instantiate(sdk.definitions.Pet, RESPONSE)
@@ -74,6 +77,7 @@ def test_override_models_dict(specd_path):
 
 def test_clone(specd_path):
     from .pet_models import Pet
+
     sdk = create_sdk(specd_path, models=Pet)
 
     pet = sdk.instantiate("Pet", RESPONSE)

@@ -11,27 +11,9 @@ from .functions import create_model_type, get_definitions
 class SwaggerClient(client.SwaggerClient):
     """ Overrides bravado client to set global headers. """
 
-    def __init__(self, swagger_spec, also_return_response=False, models=None):
+    def __init__(self, swagger_spec, also_return_response=False):
         super().__init__(swagger_spec, also_return_response)
         self.headers = {}
-        self.swagger_spec.model_overrides = self._determine_overrides(models)
-
-    @staticmethod
-    def _determine_overrides(models):
-        all_overrides = {}
-        for override in make_iterable(models):
-            if isinstance(override, dict):
-                all_overrides.update(override)
-
-            if isinstance(override, ModuleType):
-                for name, value in override.__dict__.items():
-                    if isinstance(value, ModelMeta):
-                        all_overrides[name] = value
-
-            if isinstance(override, ModelMeta):
-                all_overrides[override.__name__] = override
-
-        return all_overrides
 
     def set_headers(self, headers=None, **kwargs):
         self.headers.update(headers or {})
@@ -128,15 +110,35 @@ def create_sdk(
     config = dict(CONFIG_DEFAULTS, **(config or {}))
 
     also_return_response = config.pop("also_return_response", False)
-    swagger_spec = Spec.from_dict(spec_dict, origin_url, http_client, config)
+
+    swagger_spec = Spec(spec_dict, origin_url, http_client, config)
+    swagger_spec.model_overrides = make_model_overrides(models)
+    swagger_spec.build()
 
     swagger_client = SwaggerClient(
-        swagger_spec, also_return_response=also_return_response, models=models
+        swagger_spec, also_return_response=also_return_response
     )
 
     swagger_client.set_headers(headers)
 
     return swagger_client
+
+
+def make_model_overrides(models):
+    model_overrides = {}
+    for override in make_iterable(models):
+        if isinstance(override, dict):
+            model_overrides.update(override)
+
+        if isinstance(override, ModuleType):
+            for name, value in override.__dict__.items():
+                if isinstance(value, ModelMeta):
+                    model_overrides[name] = value
+
+        if isinstance(override, ModelMeta):
+            model_overrides[override.__name__] = override
+
+    return model_overrides
 
 
 def make_iterable(x):
