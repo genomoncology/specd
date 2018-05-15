@@ -1,5 +1,7 @@
 from bravado import client
+from bravado.config_defaults import CONFIG_DEFAULTS
 from bravado_core.model import ModelMeta
+from bravado_core.spec import Spec
 from types import ModuleType
 
 from specd import create_spec_dict
@@ -9,15 +11,15 @@ from .functions import create_model_type, get_definitions
 class SwaggerClient(client.SwaggerClient):
     """ Overrides bravado client to set global headers. """
 
-    def __init__(self, swagger_spec, also_return_response=False, *models):
+    def __init__(self, swagger_spec, also_return_response=False, models=None):
         super().__init__(swagger_spec, also_return_response)
         self.headers = {}
-        self.swagger_spec.model_overrides = {}
+        self.swagger_spec.model_overrides = self._determine_overrides(models)
 
     @staticmethod
     def _determine_overrides(models):
         all_overrides = {}
-        for override in models:
+        for override in make_iterable(models):
             if isinstance(override, dict):
                 all_overrides.update(override)
 
@@ -30,10 +32,6 @@ class SwaggerClient(client.SwaggerClient):
                 all_overrides[override.__name__] = override
 
         return all_overrides
-
-    def add_models(self, *models):
-        more_overrides = self._determine_overrides(models)
-        self.swagger_spec.model_overrides.update(more_overrides)
 
     def set_headers(self, headers=None, **kwargs):
         self.headers.update(headers or {})
@@ -110,17 +108,48 @@ class CallableOperation(client.CallableOperation):
         return super(CallableOperation, self).__call__(**op_kwargs)
 
 
-def create_sdk(specd_path, headers=None, targets=None, host=None, verify=True):
+def create_sdk(
+    specd_path,
+    headers=None,
+    targets=None,
+    host=None,
+    verify=True,
+    config=None,
+    models=None,
+    origin_url=None,
+):
     """ Convenience method for creating an SDK client. """
     spec_dict = create_spec_dict(specd_path, targets=targets, host=host)
 
     http_client = client.RequestsClient()
     http_client.session.verify = verify
 
-    swagger_client: SwaggerClient = SwaggerClient.from_spec(
-        spec_dict, http_client=http_client
+    # Apply bravado config defaults
+    config = dict(CONFIG_DEFAULTS, **(config or {}))
+
+    also_return_response = config.pop("also_return_response", False)
+    swagger_spec = Spec.from_dict(spec_dict, origin_url, http_client, config)
+
+    swagger_client = SwaggerClient(
+        swagger_spec, also_return_response=also_return_response, models=models
     )
 
     swagger_client.set_headers(headers)
 
     return swagger_client
+
+
+def make_iterable(x):
+    """
+    Makes the given object or primitive iterable.
+    :param x: item to check if is iterable and return as iterable
+    :return: list of items that is either x or contains x
+    """
+
+    if x is None:
+        x = []
+
+    elif not isinstance(x, (list, tuple, set)):
+        x = [x]
+
+    return x

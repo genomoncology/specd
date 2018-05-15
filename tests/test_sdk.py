@@ -4,8 +4,12 @@ from specd.sdk import create_sdk
 
 
 @pytest.fixture()
-def sdk():
-    specd_path = os.path.join(os.path.dirname(__file__), "specs")
+def specd_path():
+    return os.path.join(os.path.dirname(__file__), "specs")
+
+
+@pytest.fixture()
+def sdk(specd_path):
     sdk = create_sdk(specd_path)
     return sdk
 
@@ -41,40 +45,37 @@ def test_model_instantiate(sdk):
     assert pet.name == "doggie"
 
 
-def test_override_models_module(sdk):
+def test_override_models_module(specd_path):
     from . import pet_models
-
-    sdk.add_models(pet_models)
+    sdk = create_sdk(specd_path, models=pet_models)
 
     pet = sdk.instantiate(sdk.definitions.Pet, RESPONSE)
     assert isinstance(pet, pet_models.Pet)
     assert pet.speak() == "woof"
 
 
-def test_override_models_class(sdk):
+def test_override_models_class(specd_path):
     from .pet_models import Pet
-
-    sdk.add_models(Pet)
+    sdk = create_sdk(specd_path, models=[Pet])
 
     pet = sdk.instantiate(sdk.definitions.Pet, RESPONSE)
     assert isinstance(pet, Pet)
     assert pet.speak() == "woof"
 
 
-def test_override_models_dict(sdk):
+def test_override_models_dict(specd_path):
     from .pet_models import Pet
-
-    sdk.add_models(dict(Pet=Pet))
+    sdk = create_sdk(specd_path, models=dict(Pet=Pet))
 
     pet = sdk.instantiate(sdk.definitions.Pet, RESPONSE)
     assert isinstance(pet, Pet)
     assert pet.speak() == "woof"
 
 
-def test_clone(sdk):
+def test_clone(specd_path):
     from .pet_models import Pet
+    sdk = create_sdk(specd_path, models=Pet)
 
-    sdk.add_models(dict(Pet=Pet))
     pet = sdk.instantiate("Pet", RESPONSE)
     clone = pet.clone(name="doggie 2")
     assert clone.speak() == "hello"
