@@ -1,6 +1,8 @@
 from types import ModuleType
 
 import aiohttp
+import asyncio
+
 from aiobravado import client
 from bravado.config_defaults import CONFIG_DEFAULTS
 from bravado_asyncio.definitions import RunMode
@@ -109,12 +111,13 @@ def create_sdk(
     spec_dict = create_spec_dict(specd_path, targets=targets, host=host)
 
     run_mode = RunMode.FULL_ASYNCIO if async_enabled else RunMode.THREAD
+    loop = loop or asyncio.get_event_loop()
     http_client = client.AsyncioClient(run_mode=run_mode, loop=loop)
 
     # override the
     if not verify_ssl:
-        connector = aiohttp.TCPConnector(verify_ssl=verify_ssl)
-        http_client._connector = connector
+        connector = aiohttp.TCPConnector(verify_ssl=verify_ssl, loop=loop)
+        http_client.client_session._connector = connector
 
     # Apply bravado config defaults
     config = dict(CONFIG_DEFAULTS, **(config or {}))
