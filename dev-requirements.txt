@@ -6,5 +6,7 @@ pytest-mccabe
 pytest-pep8
 pytest-pythonpath
 pytest-sugar
+pytest-socket
+pytest-asyncio
 tox
 pipenv
