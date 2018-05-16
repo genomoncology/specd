@@ -1,15 +1,9 @@
-from types import ModuleType
-
 import aiohttp
 import asyncio
 
 from aiobravado import client
-from bravado.config_defaults import CONFIG_DEFAULTS
 from bravado_asyncio.definitions import RunMode
-from bravado_core.model import ModelMeta
-from bravado_core.spec import Spec
 
-from specd import create_spec_dict
 from .functions import create_model_type, get_definitions
 
 
@@ -19,6 +13,9 @@ class SwaggerClient(client.SwaggerClient):
     def __init__(self, swagger_spec, also_return_response=False):
         super().__init__(swagger_spec, also_return_response)
         self.headers = {}
+
+    async def close(self):
+        await self.swagger_spec.http_client.client_session.close()
 
     def set_headers(self, headers=None, **kwargs):
         self.headers.update(headers or {})
@@ -95,76 +92,13 @@ class CallableOperation(client.CallableOperation):
         return super(CallableOperation, self).__call__(**op_kwargs)
 
 
-def create_sdk(
-    specd_path,
-    headers=None,
-    targets=None,
-    host=None,
-    config=None,
-    models=None,
-    origin_url=None,
-    async_enabled=False,
-    verify_ssl=True,
-    loop=None,
-):
-    """ Convenience method for creating an SDK client. """
-    spec_dict = create_spec_dict(specd_path, targets=targets, host=host)
-
-    run_mode = RunMode.FULL_ASYNCIO if async_enabled else RunMode.THREAD
+def make_http_client(loop=None, verify_ssl=True):
+    run_mode = RunMode.FULL_ASYNCIO
     loop = loop or asyncio.get_event_loop()
     http_client = client.AsyncioClient(run_mode=run_mode, loop=loop)
 
-    # override the
     if not verify_ssl:
         connector = aiohttp.TCPConnector(verify_ssl=verify_ssl, loop=loop)
         http_client.client_session._connector = connector
 
-    # Apply bravado config defaults
-    config = dict(CONFIG_DEFAULTS, **(config or {}))
-
-    also_return_response = config.pop("also_return_response", False)
-
-    swagger_spec = Spec(spec_dict, origin_url, http_client, config)
-    swagger_spec.model_overrides = make_model_overrides(models)
-    swagger_spec.build()
-
-    swagger_client = SwaggerClient(
-        swagger_spec, also_return_response=also_return_response
-    )
-
-    swagger_client.set_headers(headers)
-
-    return swagger_client
-
-
-def make_model_overrides(models):
-    model_overrides = {}
-    for override in make_iterable(models):
-        if isinstance(override, dict):
-            model_overrides.update(override)
-
-        if isinstance(override, ModuleType):
-            for name, value in override.__dict__.items():
-                if isinstance(value, ModelMeta):
-                    model_overrides[name] = value
-
-        if isinstance(override, ModelMeta):
-            model_overrides[override.__name__] = override
-
-    return model_overrides
-
-
-def make_iterable(x):
-    """
-    Makes the given object or primitive iterable.
-    :param x: item to check if is iterable and return as iterable
-    :return: list of items that is either x or contains x
-    """
-
-    if x is None:
-        x = []
-
-    elif not isinstance(x, (list, tuple, set)):
-        x = [x]
-
-    return x
+    return http_client

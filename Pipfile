@@ -16,6 +16,7 @@ inflect = "*"
 related = "*"
 bravado-core = "==4.13.2"
 aiobravado = "*"
+bravado = "*"
 
 
 [dev-packages]
@@ -27,6 +28,8 @@ pytest-cov = "*"
 pytest-mccabe = "*"
 ipython = "*"
 black = "*"
+pytest-asyncio = "*"
+pytest-socket = "*"
 
 
 [requires]

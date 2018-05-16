@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "288e94fbbbfe48a8d599d6db4c34a6066508472b7e0c4c86129a650c5410ed17"
+            "sha256": "18b68ab8994d39306ec22e6362615e74c39a372a5b74ca43bfd01b9f4560f20e"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -587,6 +587,13 @@
             ],
             "version": "==3.5.1"
         },
+        "pytest-asyncio": {
+            "hashes": [
+                "sha256:286b50773e996c80d894b95afaf45df6952408a67a59979ca9839f94693ec7fd",
+                "sha256:f32804bb58a66e13a3eda11f8942a71b1b6a30466b0d2ffe9214787aab0e172e"
+            ],
+            "version": "==0.8.0"
+        },
         "pytest-cache": {
             "hashes": [
                 "sha256:be7468edd4d3d83f1e844959fd6e3fd28e77a481440a7118d430130ea31b07a9"
@@ -613,6 +620,12 @@
                 "sha256:f68af99861c06a27d45ee7682071a201fe0a7785f2ec0a96080022db5ca62012"
             ],
             "version": "==0.1"
+        },
+        "pytest-socket": {
+            "hashes": [
+                "sha256:b25297375d32661219c6fd7913dc5a9bd9d6f422b404bd4acbfd36b26b0a1546"
+            ],
+            "version": "==0.2.0"
         },
         "simplegeneric": {
             "hashes": [
