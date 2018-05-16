@@ -1,8 +1,11 @@
-from bravado import client
+from types import ModuleType
+
+import aiohttp
+from aiobravado import client
 from bravado.config_defaults import CONFIG_DEFAULTS
+from bravado_asyncio.definitions import RunMode
 from bravado_core.model import ModelMeta
 from bravado_core.spec import Spec
-from types import ModuleType
 
 from specd import create_spec_dict
 from .functions import create_model_type, get_definitions
@@ -95,16 +98,23 @@ def create_sdk(
     headers=None,
     targets=None,
     host=None,
-    verify=True,
     config=None,
     models=None,
     origin_url=None,
+    async_enabled=False,
+    verify_ssl=True,
+    loop=None,
 ):
     """ Convenience method for creating an SDK client. """
     spec_dict = create_spec_dict(specd_path, targets=targets, host=host)
 
-    http_client = client.RequestsClient()
-    http_client.session.verify = verify
+    run_mode = RunMode.FULL_ASYNCIO if async_enabled else RunMode.THREAD
+    http_client = client.AsyncioClient(run_mode=run_mode, loop=loop)
+
+    # override the
+    if not verify_ssl:
+        connector = aiohttp.TCPConnector(verify_ssl=verify_ssl)
+        http_client._connector = connector
 
     # Apply bravado config defaults
     config = dict(CONFIG_DEFAULTS, **(config or {}))

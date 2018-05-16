@@ -10,7 +10,7 @@ def specd_path():
 
 @pytest.fixture()
 def sdk(specd_path):
-    sdk = create_sdk(specd_path)
+    sdk = create_sdk(specd_path, verify_ssl=False)
     return sdk
 
 
