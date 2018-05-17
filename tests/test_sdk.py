@@ -110,8 +110,8 @@ async def test_async_sdk(specd_path, socket_enabled):
     op_kwargs = {}
     sdk.pets.listPets.update_headers(op_kwargs)
     assert (
-            op_kwargs
-            == {"_request_options": {"headers": {"Authorization": token}}}
+        op_kwargs
+        == {"_request_options": {"headers": {"Authorization": token}}}
     )
 
     await sdk.close()

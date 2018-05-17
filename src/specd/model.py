@@ -125,7 +125,7 @@ class SpecDir(object):
                 try:
                     def_spec = all_definitions.get(name).read()
                     result[name] = def_spec
-                except AttributeError:
+                except AttributeError:  # pragma: no cover
                     raise RuntimeError(f"Failed to load definition: {name}")
 
                 for found_name in self.find_definitions(def_spec):
@@ -296,8 +296,12 @@ def merge_dicts(dict1, dict2):
             yield (k, dict2[k])
 
 
-def create_spec_dict(specd_path: str, targets: list = None, host: str = None,
-                     schemes: list = None):
+def create_spec_dict(
+    specd_path: str,
+    targets: list = None,
+    host: str = None,
+    schemes: list = None,
+):
 
     spec_dict = SpecDir(specd_path).as_dict(targets=targets)
 

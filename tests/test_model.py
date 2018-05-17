@@ -25,7 +25,9 @@ def test_model_yaml():
         spec_dir.meta.write(spec)
         assert spec_dir.meta.read() == spec
 
-        spec_dict = create_spec_dict(root_dir, host="example.com")
+        spec_dict = create_spec_dict(
+            root_dir, host="example.com", schemes=["https", "http"]
+        )
         print(spec_dict)
 
         assert (
@@ -33,7 +35,7 @@ def test_model_yaml():
             == {
                 "a": 1,
                 "b": {"c": "a"},
-                "schemes": ["http"],
+                "schemes": ["https", "http"],
                 "paths": {},
                 "definitions": {},
                 "host": "example.com",
