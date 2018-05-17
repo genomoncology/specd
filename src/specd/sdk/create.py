@@ -19,9 +19,11 @@ def create_sdk(
     async_enabled=False,
     verify_ssl=True,
     loop=None,
+    schemes=None,
 ):
     """ Convenience method for creating an SDK client. """
-    spec_dict = create_spec_dict(specd_path, targets=targets, host=host)
+    spec_dict = create_spec_dict(specd_path, targets=targets, host=host,
+                                 schemes=schemes)
 
     client_ = client_async if async_enabled else client_sync
 

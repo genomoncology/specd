@@ -122,8 +122,11 @@ class SpecDir(object):
             this_round = next_round
             next_round = set()
             for name in this_round:
-                def_spec = all_definitions.get(name).read()
-                result[name] = def_spec
+                try:
+                    def_spec = all_definitions.get(name).read()
+                    result[name] = def_spec
+                except AttributeError:
+                    raise RuntimeError(f"Failed to load definition: {name}")
 
                 for found_name in self.find_definitions(def_spec):
                     if found_name not in result:
@@ -293,11 +296,15 @@ def merge_dicts(dict1, dict2):
             yield (k, dict2[k])
 
 
-def create_spec_dict(specd_path: str, targets: list = None, host: str = None):
+def create_spec_dict(specd_path: str, targets: list = None, host: str = None,
+                     schemes: list = None):
 
     spec_dict = SpecDir(specd_path).as_dict(targets=targets)
 
     if host:
         spec_dict["host"] = host
+
+    if schemes:
+        spec_dict["schemes"] = schemes
 
     return spec_dict

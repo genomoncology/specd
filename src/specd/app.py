@@ -35,6 +35,10 @@ def add_swagger(app, host, name, target):
         if host:
             spec_dict["host"] = host
 
+        schemes = request.args.get("schemes", None)
+        if schemes:
+            spec_dict["schemes"] = schemes.split(",")
+
         return jsonify(spec_dict)
 
     app.register_blueprint(swagger_blueprint, url_prefix=UI_URL)
