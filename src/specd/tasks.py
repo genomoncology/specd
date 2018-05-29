@@ -11,23 +11,40 @@ from .utils import file_path_to_dict, str_to_dict
 from .walker import generate_definitions
 
 
-def convert_file_to_specd(input_file: str, output_specd: SpecDir, format: str, case: str):
+def convert_file_to_specd(
+    input_file: str, output_specd: SpecDir, format: str, case: str
+):
     input_spec = file_path_to_dict(input_file)
     spec_dir = SpecDir(output_specd, format)
 
     # write paths
+    write_paths(case, input_spec, spec_dir)
+
+    # write definitions
+    write_definitions(input_spec, spec_dir)
+
+    write_meta(input_spec, spec_dir)
+
+
+def write_paths(case, input_spec, spec_dir):
     for (url, path_spec) in input_spec.pop("paths", {}).items():
         path = Path(spec_dir=spec_dir, url=url)
         for (method, operation_spec) in path_spec.items():
-            operation_spec["operationId"] = operation_spec["operationId"].title()
-            operation_spec["operationId"] = operation_spec["operationId"].replace('-', '').replace(':', '')
-            operation_spec["operationId"] = operation_spec["operationId"][0].lower() + operation_spec["operationId"][1:]
-
+            operation_spec["operationId"] = operation_spec[
+                "operationId"
+            ].replace(
+                "-", ""
+            ).replace(
+                ":", ""
+            )
             if case == "snake":
-                operation_spec["operationId"] = snakecase(operation_spec["operationId"])
+                operation_spec["operationId"] = snakecase(
+                    operation_spec["operationId"]
+                )
             else:
-                operation_spec["operationId"] = camelcase(operation_spec["operationId"])
-            print(operation_spec["operationId"])
+                operation_spec["operationId"] = camelcase(
+                    operation_spec["operationId"]
+                )
             operation = Operation(spec_dir=spec_dir, path=path, method=method)
             if operation.exists():
                 click.echo(f"Operation exists, merging: {path} / {method}")
@@ -35,7 +52,8 @@ def convert_file_to_specd(input_file: str, output_specd: SpecDir, format: str, c
             else:
                 operation.write(operation_spec)
 
-    # write definitions
+
+def write_definitions(input_spec, spec_dir):
     for (name, def_spec) in input_spec.pop("definitions", {}).items():
         definition = Definition(spec_dir=spec_dir, name=name)
 
@@ -45,6 +63,8 @@ def convert_file_to_specd(input_file: str, output_specd: SpecDir, format: str, c
         else:
             definition.write(def_spec)
 
+
+def write_meta(input_spec, spec_dir):
     # write meta (e.g. not paths or definitions)
     if spec_dir.meta.exists():
         click.echo(f"Meta found found, skipping.")

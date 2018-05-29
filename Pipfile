@@ -17,6 +17,7 @@ related = "*"
 bravado-core = "==4.13.2"
 aiobravado = "*"
 bravado = "*"
+stringcase = "*"
 
 
 [dev-packages]
@@ -30,6 +31,7 @@ ipython = "*"
 black = "*"
 pytest-asyncio = "*"
 pytest-socket = "*"
+white = "*"
 
 
 [requires]

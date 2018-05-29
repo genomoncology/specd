@@ -8,5 +8,8 @@ pytest-pythonpath
 pytest-sugar
 pytest-socket
 pytest-asyncio
+stringcase
 tox
 pipenv
+white
+black

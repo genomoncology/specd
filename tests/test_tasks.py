@@ -1,12 +1,13 @@
 import os
 import tempfile
 from specd import tasks, utils, SpecDir
+from stringcase import snakecase
 
 
 def test_convert_file_to_specd_json():
     with tempfile.TemporaryDirectory() as output_specd:
         input_file = os.path.join(os.path.dirname(__file__), "petstore.yaml")
-        tasks.convert_file_to_specd(input_file, output_specd, "json")
+        tasks.convert_file_to_specd(input_file, output_specd, "json", "camel")
 
         spec_dir = SpecDir(output_specd)
         assert spec_dir.format == "json"
@@ -33,10 +34,9 @@ def test_convert_file_to_specd_json():
 
 
 def test_convert_file_to_specd_json_to_yaml():
-    # with tempfile.TemporaryDirectory() as output_specd:
-        output_specd = os.path.join(os.path.dirname("specs"))
+    with tempfile.TemporaryDirectory() as output_specd:
         input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
-        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "snake")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "camel")
 
         spec_dir = SpecDir(output_specd)
         assert spec_dir.format == "yaml"
@@ -64,10 +64,45 @@ def test_convert_file_to_specd_json_to_yaml():
         assert tasks.validate_specd(output_specd) is None
 
 
+def test_convert_file_to_specd_json_to_yaml_snake():
+    with tempfile.TemporaryDirectory() as output_specd:
+        input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "snake")
+
+        spec_dir = SpecDir(output_specd)
+        assert spec_dir.format == "yaml"
+
+        # check meta file contents
+        meta = utils.file_path_to_dict(input_file)
+        paths = meta.pop("paths")
+        definitions = meta.pop("definitions")
+        assert spec_dir.meta.read() == meta
+
+        # check definitions
+        for definition in spec_dir.definitions():
+            assert definition.name in definitions
+            assert definition.read() == definitions.get(definition.name)
+
+        # check paths
+        assert len(paths) == 14
+        for path in spec_dir.paths():
+            assert path.url in paths
+            path_spec = paths.get(path.url)
+            for (method, operation_spec) in path_spec.items():
+                operation_spec["operationId"] = snakecase(
+                    operation_spec["operationId"]
+                )
+            for operation in path.operations():
+                assert operation.method in path_spec
+                assert operation.read() == path_spec.get(operation.method)
+
+        assert tasks.validate_specd(output_specd) is None
+
+
 def test_check_for_invalid_specd():
     with tempfile.TemporaryDirectory() as output_specd:
         input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
-        tasks.convert_file_to_specd(input_file, output_specd, "yaml")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "camel")
         spec_dir = SpecDir(output_specd)
 
         spec_dir.meta.write({"swagger": "2.0"})
@@ -78,7 +113,7 @@ def test_check_for_invalid_specd():
 def test_convert_specd_to_file():
     with tempfile.TemporaryDirectory() as output_specd:
         input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
-        tasks.convert_file_to_specd(input_file, output_specd, "yaml")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "camel")
 
         fp = os.path.join(output_specd, "out.json")
         tasks.convert_specd_to_file(output_specd, fp)
@@ -87,7 +122,7 @@ def test_convert_specd_to_file():
         assert spec == SpecDir(output_specd).as_dict()
 
         # now run again and thus trigger merge logic
-        tasks.convert_file_to_specd(input_file, output_specd, "yaml")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "camel")
         assert spec == SpecDir(output_specd).as_dict()
 
 
@@ -100,7 +135,7 @@ def test_check_for_not_a_specd():
 def test_check_diff():
     with tempfile.TemporaryDirectory() as spec_dir:
         f = os.path.join(os.path.dirname(__file__), "petstore.json")
-        tasks.convert_file_to_specd(f, spec_dir, "yaml")
+        tasks.convert_file_to_specd(f, spec_dir, "yaml", "camel")
 
         spec_file = os.path.join(os.path.dirname(__file__), "petstore.yaml")
 
@@ -111,7 +146,7 @@ def test_check_diff():
 def test_list_specd():
     with tempfile.TemporaryDirectory() as output_specd:
         input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
-        tasks.convert_file_to_specd(input_file, output_specd, "yaml")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "camel")
 
         collect = tasks.list_specd(output_specd)
         assert (
