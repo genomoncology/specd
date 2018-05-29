@@ -33,9 +33,10 @@ def test_convert_file_to_specd_json():
 
 
 def test_convert_file_to_specd_json_to_yaml():
-    with tempfile.TemporaryDirectory() as output_specd:
+    # with tempfile.TemporaryDirectory() as output_specd:
+        output_specd = os.path.join(os.path.dirname("specs"))
         input_file = os.path.join(os.path.dirname(__file__), "petstore.json")
-        tasks.convert_file_to_specd(input_file, output_specd, "yaml")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "snake")
 
         spec_dir = SpecDir(output_specd)
         assert spec_dir.format == "yaml"
