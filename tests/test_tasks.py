@@ -203,3 +203,24 @@ def test_create_definitions():
                 "BookTableOfContent",
             }
         )
+
+
+def test_auto_linting():
+
+    with tempfile.TemporaryDirectory() as output_specd:
+        input_file = os.path.join(os.path.dirname(__file__), "linting_test.json")
+        tasks.convert_file_to_specd(input_file, output_specd, "yaml", "snake")
+        tasks.auto_linting(output_specd)
+
+        spec_dir = SpecDir(output_specd)
+        assert spec_dir.format == "yaml"
+
+        meta = utils.file_path_to_dict(output_specd + "/paths/students/get.yaml")
+
+        for item in meta["parameters"]:
+            if "format" in item:
+                assert item["format"] != "char"
+                assert item["format"] != "boolean"
+                assert item["format"] != "gender"
+                assert item["format"] != "uuid"
+            assert "read_only" not in item

@@ -108,5 +108,12 @@ def define(name):
     tasks.create_definitions(input_dir, name, data)
 
 
+@cli.command()
+@click.argument("directory", type=click.Path(exists=True, resolve_path=True))
+def lint(directory):
+    """Removes unwanted lines from all files within the spec directory"""
+    tasks.auto_linting(directory)
+
+
 if __name__ == "__main__":
     cli()

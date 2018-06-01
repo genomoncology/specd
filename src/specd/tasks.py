@@ -10,6 +10,20 @@ from .model import SpecDir, Path, Operation, Definition, create_spec_dict
 from .utils import file_path_to_dict, str_to_dict
 from .walker import generate_definitions
 
+LINTING_CRITERIA = [
+    "read_only: false\n",
+    "read_only: true\n",
+    "format: char\n",
+    "format: boolean\n",
+    "format: gender\n",
+    "format: rpt\n",
+    "format: slug\n",
+    "format: choice\n",
+    "format: uuid\n",
+    "format: readonly\n",
+    "format: list\n"
+]
+
 
 def convert_file_to_specd(
     input_file: str, output_specd: SpecDir, format: str, case: str
@@ -184,3 +198,33 @@ def create_specd(input_dir: str):
     spec_dir = SpecDir(input_dir)
     spec_dir.meta.write({})
     return spec_dir
+
+
+def auto_linting(input_dir: str):
+    spec_dir = SpecDir(input_dir)
+    assert spec_dir.exists(), f"Specd not found: {input_dir}"
+
+    # Iterates through each definition and removes lines that are unwanted
+    for fp in os.listdir(input_dir + "/definitions"):
+        with open(input_dir + "/definitions/" + fp, 'r') as origin, open(input_dir + "/definitions/temp.yaml", 'w+') as updated:
+            for line in origin:
+                stripped = line.strip(" ")
+                if stripped not in LINTING_CRITERIA:
+                    updated.write(line)
+
+            origin.close()
+            updated.close()
+        os.replace(updated.name, origin.name)
+
+    # Iterates through path directory tree and removes unwanted lines from all yaml files
+    for dir_name, sub_dir, f_list in os.walk(input_dir + "/paths"):
+        for fp in f_list:
+            with open(dir_name + "/" + fp, 'r') as origin, open(dir_name + "/temp.yaml", 'w+') as updated:
+                for line in origin:
+                    stripped = line.strip(" ")
+                    if stripped not in LINTING_CRITERIA:
+                        updated.write(line)
+
+                origin.close()
+                updated.close()
+            os.replace(updated.name, origin.name)
