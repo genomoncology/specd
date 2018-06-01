@@ -149,33 +149,30 @@ def test_list_specd():
         tasks.convert_file_to_specd(input_file, output_specd, "yaml", "camel")
 
         collect = tasks.list_specd(output_specd)
-        assert (
-            collect
-            == [
-                "\n\tDefinitions:\n",
-                "\t\tApiResponse",
-                "\t\tCategory",
-                "\t\tOrder",
-                "\t\tPet",
-                "\t\tTag",
-                "\t\tUser",
-                "\n\tPaths:\n",
-                "\t\t/pet/findByStatus: get",
-                "\t\t/pet/findByTags: get",
-                "\t\t/pet/{petId}/uploadImage: post",
-                "\t\t/pet/{petId}: delete, get, post",
-                "\t\t/pet: post, put",
-                "\t\t/store/inventory: get",
-                "\t\t/store/order/{orderId}: delete, get",
-                "\t\t/store/order: post",
-                "\t\t/user/createWithArray: post",
-                "\t\t/user/createWithList: post",
-                "\t\t/user/login: get",
-                "\t\t/user/logout: get",
-                "\t\t/user/{username}: delete, get, put",
-                "\t\t/user: post",
-            ]
-        )
+        assert collect == [
+            "\n\tDefinitions:\n",
+            "\t\tApiResponse",
+            "\t\tCategory",
+            "\t\tOrder",
+            "\t\tPet",
+            "\t\tTag",
+            "\t\tUser",
+            "\n\tPaths:\n",
+            "\t\t/pet/findByStatus: get",
+            "\t\t/pet/findByTags: get",
+            "\t\t/pet/{petId}/uploadImage: post",
+            "\t\t/pet/{petId}: delete, get, post",
+            "\t\t/pet: post, put",
+            "\t\t/store/inventory: get",
+            "\t\t/store/order/{orderId}: delete, get",
+            "\t\t/store/order: post",
+            "\t\t/user/createWithArray: post",
+            "\t\t/user/createWithList: post",
+            "\t\t/user/login: get",
+            "\t\t/user/logout: get",
+            "\t\t/user/{username}: delete, get, put",
+            "\t\t/user: post",
+        ]
 
 
 def test_create_definitions():
@@ -187,35 +184,36 @@ def test_create_definitions():
         definitions = tasks.create_definitions(input_dir, "Book", input_data)
         assert len(definitions) == 11
         assert len(spec_dir.definitions()) == 11
-        assert (
-            set([d.name for d in definitions])
-            == {
-                "Book",
-                "BookAuthor",
-                "BookClassification",
-                "BookCover",
-                "BookEbook",
-                "BookEbookFormat",
-                "BookIdentifier",
-                "BookPublishPlace",
-                "BookPublisher",
-                "BookSubject",
-                "BookTableOfContent",
-            }
-        )
+        assert set([d.name for d in definitions]) == {
+            "Book",
+            "BookAuthor",
+            "BookClassification",
+            "BookCover",
+            "BookEbook",
+            "BookEbookFormat",
+            "BookIdentifier",
+            "BookPublishPlace",
+            "BookPublisher",
+            "BookSubject",
+            "BookTableOfContent",
+        }
 
 
 def test_auto_linting():
 
     with tempfile.TemporaryDirectory() as output_specd:
-        input_file = os.path.join(os.path.dirname(__file__), "linting_test.json")
+        input_file = os.path.join(
+            os.path.dirname(__file__), "linting_test.json"
+        )
         tasks.convert_file_to_specd(input_file, output_specd, "yaml", "snake")
         tasks.auto_linting(output_specd)
 
         spec_dir = SpecDir(output_specd)
         assert spec_dir.format == "yaml"
 
-        meta = utils.file_path_to_dict(output_specd + "/paths/students/get.yaml")
+        meta = utils.file_path_to_dict(
+            output_specd + "/paths/students/get.yaml"
+        )
 
         for item in meta["parameters"]:
             if "format" in item:

@@ -21,7 +21,7 @@ LINTING_CRITERIA = [
     "format: choice\n",
     "format: uuid\n",
     "format: readonly\n",
-    "format: list\n"
+    "format: list\n",
 ]
 
 
@@ -44,12 +44,8 @@ def write_paths(case, input_spec, spec_dir):
     for (url, path_spec) in input_spec.pop("paths", {}).items():
         path = Path(spec_dir=spec_dir, url=url)
         for (method, operation_spec) in path_spec.items():
-            operation_spec["operationId"] = operation_spec[
-                "operationId"
-            ].replace(
-                "-", ""
-            ).replace(
-                ":", ""
+            operation_spec["operationId"] = (
+                operation_spec["operationId"].replace("-", "").replace(":", "")
             )
             if case == "snake":
                 operation_spec["operationId"] = snakecase(
@@ -205,21 +201,18 @@ def auto_linting(input_dir: str):
     assert spec_dir.exists(), f"Specd not found: {input_dir}"
 
     # Iterates through each definition and removes lines that are unwanted
-    for fp in os.listdir(input_dir + "/definitions"):
-        with open(input_dir + "/definitions/" + fp, 'r') as origin, open(input_dir + "/definitions/temp.yaml", 'w+') as updated:
-            for line in origin:
-                stripped = line.strip(" ")
-                if stripped not in LINTING_CRITERIA:
-                    updated.write(line)
+    lint_definitions(input_dir)
 
-            origin.close()
-            updated.close()
-        os.replace(updated.name, origin.name)
+    # Does the same for all path files
+    lint_paths(input_dir)
 
-    # Iterates through path directory tree and removes unwanted lines from all yaml files
+
+def lint_paths(input_dir):
     for dir_name, sub_dir, f_list in os.walk(input_dir + "/paths"):
         for fp in f_list:
-            with open(dir_name + "/" + fp, 'r') as origin, open(dir_name + "/temp.yaml", 'w+') as updated:
+            with open(dir_name + "/" + fp, "r") as origin, open(
+                dir_name + "/temp.yaml", "w+"
+            ) as updated:
                 for line in origin:
                     stripped = line.strip(" ")
                     if stripped not in LINTING_CRITERIA:
@@ -228,3 +221,18 @@ def auto_linting(input_dir: str):
                 origin.close()
                 updated.close()
             os.replace(updated.name, origin.name)
+
+
+def lint_definitions(input_dir):
+    for fp in os.listdir(input_dir + "/definitions"):
+        with open(input_dir + "/definitions/" + fp, "r") as origin, open(
+            input_dir + "/definitions/temp.yaml", "w+"
+        ) as updated:
+            for line in origin:
+                stripped = line.strip(" ")
+                if stripped not in LINTING_CRITERIA:
+                    updated.write(line)
+
+            origin.close()
+            updated.close()
+        os.replace(updated.name, origin.name)

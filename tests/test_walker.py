@@ -27,37 +27,34 @@ def test_generate_for_array_complex():
     ]
 
     dfn = related.to_dict(list(generate_for_array("Book", "ebooks", ebooks)))
-    assert (
-        dfn
-        == [
-            {
-                "name": "BookEbookFormatMobi",
-                "properties": {
-                    "another": {"format": "int64", "type": "integer"},
-                    "site": {"type": "string"},
+    assert dfn == [
+        {
+            "name": "BookEbookFormatMobi",
+            "properties": {
+                "another": {"format": "int64", "type": "integer"},
+                "site": {"type": "string"},
+            },
+        },
+        {
+            "name": "BookEbookFormat",
+            "properties": {
+                "mobi": {
+                    "items": {"$ref": "#/definitions/BookEbookFormatMobi"},
+                    "type": "array",
+                }
+            },
+        },
+        {
+            "name": "BookEbook",
+            "properties": {
+                "availability": {"type": "string"},
+                "formats": {
+                    "$ref": "#/definitions/BookEbookFormat",
+                    "type": "object",
                 },
             },
-            {
-                "name": "BookEbookFormat",
-                "properties": {
-                    "mobi": {
-                        "items": {"$ref": "#/definitions/BookEbookFormatMobi"},
-                        "type": "array",
-                    }
-                },
-            },
-            {
-                "name": "BookEbook",
-                "properties": {
-                    "availability": {"type": "string"},
-                    "formats": {
-                        "$ref": "#/definitions/BookEbookFormat",
-                        "type": "object",
-                    },
-                },
-            },
-        ]
-    )
+        },
+    ]
 
 
 def test_generate_properties():
@@ -67,19 +64,16 @@ def test_generate_properties():
 
     definitions = list(generate_definitions("Book", book_dict))
     name_count_set = {(d.name, len(d.properties)) for d in definitions}
-    assert (
-        name_count_set
-        == {
-            ("Book", 16),
-            ("BookAuthor", 2),
-            ("BookClassification", 2),
-            ("BookCover", 3),
-            ("BookEbook", 3),
-            ("BookEbookFormat", 0),
-            ("BookIdentifier", 6),
-            ("BookPublishPlace", 1),
-            ("BookPublisher", 1),
-            ("BookSubject", 2),
-            ("BookTableOfContent", 4),
-        }
-    )
+    assert name_count_set == {
+        ("Book", 16),
+        ("BookAuthor", 2),
+        ("BookClassification", 2),
+        ("BookCover", 3),
+        ("BookEbook", 3),
+        ("BookEbookFormat", 0),
+        ("BookIdentifier", 6),
+        ("BookPublishPlace", 1),
+        ("BookPublisher", 1),
+        ("BookSubject", 2),
+        ("BookTableOfContent", 4),
+    }
