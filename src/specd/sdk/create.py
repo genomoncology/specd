@@ -1,6 +1,6 @@
 from types import ModuleType
 
-from bravado.config_defaults import CONFIG_DEFAULTS
+from bravado.config import CONFIG_DEFAULTS
 from bravado_core.model import ModelMeta
 from bravado_core.spec import Spec
 
