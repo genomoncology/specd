@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b3942cd0651487f60a7af279075b9e65c70de128ea02aad98077dd6441f1ec4a"
+            "sha256": "e964a282f7b28cd7164d45871e6b35cfd26b41dc43054391d91b6388e7821983"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -73,10 +73,10 @@
         },
         "bravado": {
             "hashes": [
-                "sha256:7202dfb60ae5a415a632dc5f124e565a8dbf4201e08e838b3fef911fdae97ed4",
-                "sha256:433991833fcf0c194e27884bc4f59cfb6d08a7bd5ff1e12989bfdc64f7045c83"
+                "sha256:48ef7a72da3f4e08aa47e38247e73ebc838bfa3648d9d02261273dec63ed85e9",
+                "sha256:5fdd570053fde22235eef78b399addb6fe6f2182cd3a7a1f159d5d00188b2033"
             ],
-            "version": "==9.2.2"
+            "version": "==9.3.0"
         },
         "bravado-asyncio": {
             "hashes": [
@@ -87,10 +87,10 @@
         },
         "bravado-core": {
             "hashes": [
-                "sha256:6251030957bfa7f75f4ecbf58a418070a39dfcc068b1b893cb15399f23ef5263",
-                "sha256:b5da0d6ea6fde07b893b7b650e66284dac2a6154ee43baef020ca33ea0f7d7d4"
+                "sha256:460fd1e3888b876c1f15385d81056343bd747360f16f75423f544cdb0fe760bf",
+                "sha256:3a4a7d48bcfc76b51f1c0d447f271a86e39a0708654927e7a46b675066360cc2"
             ],
-            "version": "==4.13.2"
+            "version": "==5.0.3"
         },
         "certifi": {
             "hashes": [
@@ -190,6 +190,13 @@
                 "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665"
             ],
             "version": "==1.0"
+        },
+        "monotonic": {
+            "hashes": [
+                "sha256:552a91f381532e33cbd07c6a2655a21908088962bb8fa7239ecbcc6ad1140cc7",
+                "sha256:23953d55076df038541e648a53676fb24980f7a1be290cdda21300b3bc21dfb0"
+            ],
+            "version": "==1.5"
         },
         "msgpack-python": {
             "hashes": [
@@ -314,6 +321,12 @@
                 "sha256:5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277"
             ],
             "version": "==0.7"
+        },
+        "stringcase": {
+            "hashes": [
+                "sha256:48a06980661908efe8d9d34eab2b6c13aefa2163b3ced26972902e3bdfd87008"
+            ],
+            "version": "==1.2.0"
         },
         "swagger-spec-validator": {
             "hashes": [
@@ -646,12 +659,6 @@
                 "sha256:70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
             ],
             "version": "==1.11.0"
-        },
-        "stringcase": {
-            "hashes": [
-                "sha256:48a06980661908efe8d9d34eab2b6c13aefa2163b3ced26972902e3bdfd87008"
-            ],
-            "version": "==1.2.0"
         },
         "toml": {
             "hashes": [
