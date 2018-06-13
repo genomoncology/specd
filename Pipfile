@@ -15,8 +15,8 @@ dictdiffer = "*"
 inflect = "*"
 related = "*"
 bravado-core = "==4.13.2"
-aiobravado = "*"
-bravado = "*"
+aiobravado = "==0.9.2"
+bravado = "==9.2.2"
 
 
 [dev-packages]

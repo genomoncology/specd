@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.1.10',
+    version='0.1.11',
 
     package_dir={
         '': 'src'
@@ -38,6 +38,7 @@ setup(
         "related >= 0.6.3",
         "inflect >= 0.3.1",
         "aiobravado == 0.9.2",
+        "bravado == 9.2.2",
         "bravado-core == 4.13.2",
     ],
 
