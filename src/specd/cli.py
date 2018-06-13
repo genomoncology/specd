@@ -36,7 +36,9 @@ def convert(input_file, output_specd, format):
     "output_specd",
     type=click.Path(dir_okay=False, resolve_path=True),
 )
-@click.option("--case", "-c", type=click.Choice(["camel", "snake"]), default="snake")
+@click.option(
+    "--case", "-c", type=click.Choice(["camel", "snake"]), default="snake"
+)
 @click.option("--target", "-t", multiple=True)
 def generate(output_file, target, case):
     """create specification file from current specd."""
@@ -104,6 +106,13 @@ def define(name):
     data = sys.stdin.read()
     input_dir = os.getcwd()
     tasks.create_definitions(input_dir, name, data)
+
+
+@cli.command()
+@click.argument("directory", type=click.Path(exists=True, resolve_path=True))
+def lint(directory):
+    """Removes unwanted lines from all files within the spec directory"""
+    tasks.auto_linting(directory)
 
 
 if __name__ == "__main__":

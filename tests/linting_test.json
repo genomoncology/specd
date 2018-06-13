@@ -1,0 +1,158 @@
+{
+  "host": "",
+  "info": {
+    "title": "Test API",
+    "version": "1.0"
+  },
+  "paths": {
+    "students": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Gets Student Entries",
+        "description": "",
+        "consumes": "",
+        "operationId": "getStudent",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "Student uuid",
+            "name": "uuid",
+            "format": "char",
+            "read_only": false,
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Student numerical id",
+            "name": "id",
+            "format": "int32",
+            "read_only": false,
+            "in": "query",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "Student first name",
+            "name": "first_name",
+            "format": "char",
+            "read_only": false,
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Student last name",
+            "name": "last_name",
+            "format": "char",
+            "read_only": false,
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Student enrollment status",
+            "name": "is_enrolled",
+            "format": "boolean",
+            "read_only": false,
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "description": "Student gender",
+            "name": "gender",
+            "format": "gender",
+            "read_only": false,
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "list of student objects",
+            "schema": {
+              "$ref": "#/definitions/StudentList"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Student": {
+      "properties": {
+        "id":{
+          "format": "int32",
+          "type": "integer"
+        },
+        "uuid":{
+          "format": "uuid",
+          "type": "string",
+          "read_only": "true"
+        },
+        "first_name": {
+          "format": "char",
+          "type": "string"
+        },
+        "last_name": {
+          "format": "char",
+          "type": "string"
+        },
+        "is_enrolled": {
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "gender": {
+          "format": "gender",
+          "type": "string"
+        }
+      }
+    },
+    "StudentList": {
+      "properties": {
+        "hits": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "results": {
+          "items": {
+            "$ref": "#/definitions/Student"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "Error": {
+      "additionalProperties": {
+        "items": {
+          "format": "char",
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "title": "Error",
+      "type": "object"
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "x-paramCollapseThreshold": 2
+}

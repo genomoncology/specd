@@ -136,7 +136,7 @@
         ],
         "summary": "Finds Pets by status",
         "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "get:api-trials-detail-eligibilities",
+        "operationId": "findPetsByStatus",
         "produces": [
           "application/xml",
           "application/json"

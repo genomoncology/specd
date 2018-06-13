@@ -96,7 +96,7 @@ class SpecDir(object):
     def paths_as_dict(self, targets):
         paths = {}
         found_definitions = set()
-        all_ops = (targets == set())
+        all_ops = targets == set()
 
         for path in self.paths():
             path_spec = {}

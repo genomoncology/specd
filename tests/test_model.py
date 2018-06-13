@@ -30,17 +30,14 @@ def test_model_yaml():
         )
         print(spec_dict)
 
-        assert (
-            spec_dict
-            == {
-                "a": 1,
-                "b": {"c": "a"},
-                "schemes": ["https", "http"],
-                "paths": {},
-                "definitions": {},
-                "host": "example.com",
-            }
-        )
+        assert spec_dict == {
+            "a": 1,
+            "b": {"c": "a"},
+            "schemes": ["https", "http"],
+            "paths": {},
+            "definitions": {},
+            "host": "example.com",
+        }
 
 
 def test_model_json():

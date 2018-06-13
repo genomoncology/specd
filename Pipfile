@@ -30,6 +30,7 @@ ipython = "*"
 black = "*"
 pytest-asyncio = "*"
 pytest-socket = "*"
+stringcase = "*"
 
 
 [requires]
