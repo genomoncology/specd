@@ -2,7 +2,6 @@ from specd.sdk import BaseModel
 
 
 class Pet(BaseModel):
-
     def speak(self):
         return "woof" if self.name == "doggie" else "hello"
 

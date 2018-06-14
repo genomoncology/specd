@@ -73,7 +73,7 @@ class SpecDir(object):
         paths_root = self.abspath(Path.PATHS)
         for path, _, file_names in os.walk(paths_root):
             if file_names:
-                url = path[len(paths_root):]
+                url = path[len(paths_root) :]  # noqa E203
                 paths.append(self.get_path(url))
         return paths
 
@@ -213,7 +213,6 @@ class Path(object):
 
 
 class Operation(object):
-
     def __init__(self, spec_dir: SpecDir, path: Path, method: str):
         self.spec_dir = spec_dir
         self.path = path

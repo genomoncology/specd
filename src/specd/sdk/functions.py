@@ -15,7 +15,9 @@ def get_model_spec(swagger_spec, model_name):
     return get_definitions(swagger_spec)[model_name].value
 
 
-def create_model_type(swagger_spec, model_name, model_spec=None):
+def create_model_type(
+    swagger_spec, model_name, model_spec=None, json_reference=None, **_
+):
     """ Overrides default type construction to inject new base class. """
 
     if isinstance(model_name, enum.Enum):
@@ -45,6 +47,7 @@ def create_model_type(swagger_spec, model_name, model_spec=None):
             _model_spec=model_spec,
             _properties=model.collapsed_properties(model_spec, swagger_spec),
             _inherits_from=inherits_from,
+            _json_reference=json_reference,
         ),
     )
 

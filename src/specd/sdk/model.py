@@ -4,7 +4,6 @@ from .functions import get_definitions, create_model_type
 
 
 class BaseModel(BravadoModel):
-
     @property
     def definitions(self):
         return get_definitions(self._swagger_spec)
