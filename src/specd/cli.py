@@ -27,7 +27,7 @@ def convert(input_file, output_specd, format):
     """convert a specification file into a specd."""
     input_file = click.format_filename(input_file)
     output_specd = click.format_filename(output_specd)
-    tasks.convert_file_to_specd(input_file, output_specd, format)
+    tasks.convert_file_to_specd(input_file, output_specd, format, "snake")
 
 
 @cli.command()
