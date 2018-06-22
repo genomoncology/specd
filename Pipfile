@@ -29,7 +29,7 @@ white = "*"
 pytest-cov = "*"
 pytest-mccabe = "*"
 ipython = "*"
-black = "*"
+black = "==18.6b4"
 pytest-asyncio = "*"
 pytest-socket = "*"
 

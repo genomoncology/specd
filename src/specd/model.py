@@ -109,9 +109,11 @@ class SpecDir(object):
                     found_definitions.update(self.find_definitions(op_spec))
 
             if path_spec:
-                paths[path.url] = path_spec
+                # to allow for trailing forward slash, include #fs at end
+                url = path.url.replace("#fs", "/")
+                paths[url] = path_spec
 
-        return (paths, found_definitions)
+        return paths, found_definitions
 
     def definitions_as_dict(self, found_definitions):
         all_definitions = self.get_definition_map()
@@ -198,14 +200,15 @@ class Path(object):
         return self.spec_dir.abspath(self.PATHS, self.url)
 
     def operations(self):
-        return [
+        return list(filter(None, [
             self.get_operation(method)
             for method in get_file_names(self.abspath)
-        ]
+        ]))
 
     def get_operation(self, method_or_filename):
         method = method_or_filename.split(".")[0]
-        return Operation(self.spec_dir, self, method)
+        if method in {"get", "delete", "patch", "put", "post"}:
+            return Operation(self.spec_dir, self, method)
 
     @property
     def methods(self):
