@@ -43,5 +43,5 @@ publish:
 	pip install 'twine>=1.5.0'
 	python setup.py sdist
 	python setup.py bdist_wheel --universal
-	twine upload dist/*
+	pipenv run twine upload dist/*
 	rm -fr build dist .egg related.egg-info

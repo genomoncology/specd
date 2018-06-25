@@ -6,7 +6,7 @@ __all__ = ("SpecDir", "create_spec_dict", "create_app", "tasks")
 
 __author__ = """Ian Maurer"""
 __email__ = "ian@genomoncology.com"
-__version__ = "0.1.14"
+__version__ = "0.1.15"
 
 __uri__ = "http://www.github.com/genomoncology/specd"
 __copyright__ = "Copyright (c) 2018 genomoncology.com"

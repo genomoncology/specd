@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 click = "*"
 flask-swagger-ui = "*"
 swagger-spec-validator = "*"
@@ -20,9 +17,7 @@ bravado = "==9.3.0"
 bravado-asyncio = "==1.0.0"
 stringcase = "*"
 
-
 [dev-packages]
-
 pytest = "*"
 white = "*"
 "pytest-flake8" = "*"
@@ -32,8 +27,7 @@ ipython = "*"
 black = "==18.6b4"
 pytest-asyncio = "*"
 pytest-socket = "*"
-
+twine = "*"
 
 [requires]
-
 python_version = "3.6"
