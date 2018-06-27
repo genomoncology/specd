@@ -1,8 +1,14 @@
 from .model import SpecDir, create_spec_dict
 from .app import create_app
-from . import tasks
+from . import tasks, monkey_patch
 
-__all__ = ("SpecDir", "create_spec_dict", "create_app", "tasks")
+__all__ = (
+    "SpecDir",
+    "create_spec_dict",
+    "create_app",
+    "tasks",
+    "monkey_patch",
+)
 
 __author__ = """Ian Maurer"""
 __email__ = "ian@genomoncology.com"

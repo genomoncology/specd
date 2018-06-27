@@ -5,6 +5,7 @@ directory = htmlcov/
 omit =
     src/specd/cli.py
     src/specd/app.py
+    src/specd/monkey_patch.py
 
 [report]
 exclude_lines =
