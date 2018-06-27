@@ -200,10 +200,15 @@ class Path(object):
         return self.spec_dir.abspath(self.PATHS, self.url)
 
     def operations(self):
-        return list(filter(None, [
-            self.get_operation(method)
-            for method in get_file_names(self.abspath)
-        ]))
+        return list(
+            filter(
+                None,
+                [
+                    self.get_operation(method)
+                    for method in get_file_names(self.abspath)
+                ],
+            )
+        )
 
     def get_operation(self, method_or_filename):
         method = method_or_filename.split(".")[0]
