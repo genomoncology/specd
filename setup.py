@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.1.15',
+    version='0.1.16',
 
     package_dir={
         '': 'src'
