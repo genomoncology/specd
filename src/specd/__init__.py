@@ -12,7 +12,7 @@ __all__ = (
 
 __author__ = """Ian Maurer"""
 __email__ = "ian@genomoncology.com"
-__version__ = "0.1.16"
+__version__ = "0.2.0"
 
 __uri__ = "http://www.github.com/genomoncology/specd"
 __copyright__ = "Copyright (c) 2018 genomoncology.com"
