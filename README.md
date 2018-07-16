@@ -180,7 +180,6 @@ $ pip install specd --upgrade
     $ specd diff ~/swagger.json ~/new_generated_spec.yaml
     ```
     
-    
 -	List Definitions and Paths: `ls`
      ---
      `ls` can be run inside of a specd directory in order to display all definitions and paths for that spec
@@ -217,15 +216,19 @@ $ pip install specd --upgrade
 		  	/user/{username}: delete, get, put
 		  	/user: post
 	 ```
+	 
 - 	Linting Path and Definition Files: `lint`
   	 ---
   	 When a specification swagger file is first broken out into *definition* and *paths* directories using `convert`, the file may have contained fields and types that are not registered with bravado. Although this does not directly affect the API spec's ability to function, logging can become very cluttered, as whenever bravado encounters an unregistered field, it throws a warning message. 
   
   	 Running the `lint` command takes a path to a specd directory as its only argument. When it is executed, `lint` will recursively traverse every single path and definition .json/.yaml file in the specd directory and remove any lines that will cause bravado to throw warnings.
+     
      <h5>Example</h5>
+     
      ```bash
      $ specd lint ~/petstore/specs
      ```
+     
 -	Validate Specd Directory: `validate`
 	 ---
      `validate` takes no arguments, and will verify if your current working directory is a valid specd directory 
