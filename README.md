@@ -1,4 +1,4 @@
-<<h1>specd</h1>
+<h1>specd</h1>
 
 Command-line interface (CLI) for making Swagger 2.0 projects easier to maintain
 by breaking the paths and definitions out into discrete folders and files in OpenAPI Specification 2.0 format
@@ -40,42 +40,42 @@ $ pip install specd --upgrade
  	```yaml
  	description: Returns a single pet
  	operationId: get_foo_by_fooId
+    produces:
+	   - application/json
  	parameters:
- 	- description: ID of pet to return
-  		format: int32
-   		in: path
-   		name: fooId
-   		required: true
-   		type: integer
-	produces:
-	- application/json
-	responses:
-  	'200':
-    	description: successful operation
-    	schema:
-      	$ref: '#/definitions/Foo'  #Reference to the Foo model in definitions that is returned on response
-  	'400':
-    	description: Invalid bar supplied
-  	'404':
-    	description: foo object not found
-	tags:
-	- foo
+  - description: ID of pet to return
+    format: int32
+    in: path
+   	name: fooId
+   	required: true
+   	type: integer
+  responses:
+    '200':
+      description: successful operation
+      schema:
+        $ref: '#/definitions/Foo'  #Reference to the Foo model in definitions that is returned on response
+    '400':
+      description: Invalid bar supplied
+    '404':
+      description: foo object not found
+    tags:
+	   - foo
  	```
  
  	__`Foo.yaml` - definition__
  	```yaml
  	properties:
- 		bar:
-    		$ref: "#/definitions/Bar"
-    	fooId:
-    		format: int32
-        	type: integer
-    	data_entries:
-    		items:
-        		type: string
-        	type: array
-    	name:
-    		type: string
+ 	  bar:
+      $ref: "#/definitions/Bar"
+    fooId:
+      format: int32
+      type: integer
+    data_entries:
+      items:
+        type: string
+      type: array
+    name:
+     type: string
  	title: Foo
  	type: object
  	```
@@ -87,11 +87,13 @@ $ pip install specd --upgrade
     directory as arguments, and creates a specd directory with the following 
     
     <h5>Command Options</h5>
+      
     | Command Options         | Description                                         | Default | Values           |  
     |-------------------------|-----------------------------------------------------|---------|------------------|
     | `-f, --format`          | specify the format of the files in the output specd | `yaml`  | `json` or `yaml` |
     
     <h5>Example</h5>
+    
     To get the specification file that defines the Swagger Petstore UI at <https://petstore.swagger.io/>, perform a wget to download the specification.json file, and then perform a convert on it
     ```bash
     $ wget "http://petstore.swagger.io/v2/swagger.json" 
@@ -101,22 +103,22 @@ $ pip install specd --upgrade
     ```bash
     .
     ├── petstore
-    │	└── specs
-    │    	├── definitions [not opening dir to save space]
-    │ 		│	├── ApiResponse.yaml
+    │   └── specs
+    │       ├── definitions [not opening dir to save space]
+    │       │   ├── ApiResponse.yaml
     │       │   ├── Category.yaml
     │       │   ├── Order.yaml
     │       │   ├── Pet.yaml
     │       │   ├── Tag.yaml     
-	│		│	└── User.yaml
-    │    	├── paths
-    │		│	├── pet
-    │		│	│	└── ... [omitting subdirs to save space]
-    │		│	├── store
-    │		│	│	└── ... [omitting subdirs to save space]
-    │		│	└── user
-    │		│		└── ... [omitting subdirs to save space]
-	│		└── specd.yaml
+    │       │   └── User.yaml
+    │       ├── paths
+    │       │   ├── pet
+    │       │   │   └── ... [omitting subdirs to save space]
+    │       │   ├── store
+    │       │   │   └── ... [omitting subdirs to save space]
+    │       │   └── user
+    │       │       └── ... [omitting subdirs to save space]
+    │       └── specd.yaml
     └── swagger.json
     ```
     
@@ -133,7 +135,8 @@ $ pip install specd --upgrade
    |:-------------|:---------------------------------------------------------------------------------------------------|:--------|:------------------|
    | `-c, --case` | specify if operation names in specification file <br> should be converted to `snake_case` or `camelCase` | `snake` | `snake` or `camel`|
     
-    <h5>Example</h5>  
+    <h5>Example</h5> 
+     
     Continuing off of the example from the `convert` command, we can create a new specification file for the Swagger Petstore API in yaml format based off of our specd directory
     ```bash
     $ specd generate ~/petstore/specs ~/new_generated_spec.yaml
@@ -141,6 +144,7 @@ $ pip install specd --upgrade
     $ ls
     petstore/	swagger.json	new_generated_spec.yaml
     ```
+    
 - Running Swagger: `swagger`
   ---
     `swagger` starts a flask app for Swagger UI, allowing you to view and test your API. This command must be run out of your specd directory in order to function properly.   
