@@ -15,9 +15,13 @@ def add_swagger(app, host, name, target):
     target = target or []
     DOC_URL = build_doc_url(host, target)
     UI_URL = "/ui"
+    config = {
+        "app_name": name or "Swagger UI",
+        "defaultModelsExpandDepth": -1
+    }
 
     swagger_blueprint = get_swaggerui_blueprint(
-        UI_URL, DOC_URL, config={"app_name": name or "Swagger UI"}
+        UI_URL, DOC_URL, config=config
     )
 
     @app.route("/")
