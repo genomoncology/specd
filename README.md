@@ -46,9 +46,9 @@ $ pip install specd --upgrade
   - description: ID of pet to return
     format: int32
     in: path
-   	name: fooId
-   	required: true
-   	type: integer
+    name: fooId
+    required: true
+    type: integer
   responses:
     '200':
       description: successful operation
@@ -175,58 +175,62 @@ $ pip install specd --upgrade
     `diff` takes two swagger specification files as arguments, and displays path and 
     definition differences between the two
     <h5>Example</h5>
+    
     ```bash
     $ specd diff ~/swagger.json ~/new_generated_spec.yaml
--	List Definitions and Paths: `ls`
-	---
-    `ls` can be run inside of a specd directory in order to display all definitions and paths for that spec
+    ```
     
-    <h5>Example</h5>
-    ```bash
-    $ cd ~/petstore/specs
-    $ specd ls
+    
+-	List Definitions and Paths: `ls`
+     ---
+     `ls` can be run inside of a specd directory in order to display all definitions and paths for that spec
+    
+     <h5>Example</h5>
+    
+     ```bash
+     $ cd ~/petstore/specs
+     $ specd ls
     
     	Definitions:
 
-			ApiResponse
-			Category
-			Order
-			Pet
-			Tag
-			User
+			  ApiResponse
+			  Category
+			  Order
+			  Pet
+			  Tag
+			  User
 
-		Paths:
+		  Paths:
 
-			/pet/findByStatus: get
-			/pet/findByTags: get
-			/pet/{petId}/uploadImage: post
-			/pet/{petId}: delete, get, post
-			/pet: post, put
-			/store/inventory: get
-			/store/order/{orderId}: delete, get
-			/store/order: post
-			/user/createWithArray: post
-			/user/createWithList: post
-			/user/login: get
-			/user/logout: get
-			/user/{username}: delete, get, put
-			/user: post
-	```
+		  	/pet/findByStatus: get
+		  	/pet/findByTags: get
+		  	/pet/{petId}/uploadImage: post
+		  	/pet/{petId}: delete, get, post
+		  	/pet: post, put
+		  	/store/inventory: get
+		  	/store/order/{orderId}: delete, get
+		  	/store/order: post
+		  	/user/createWithArray: post
+		  	/user/createWithList: post
+		  	/user/login: get
+		  	/user/logout: get
+		  	/user/{username}: delete, get, put
+		  	/user: post
+	 ```
 - 	Linting Path and Definition Files: `lint`
-  	---
-  	When a specification swagger file is first broken out into *definition* and *paths* directories using `convert`, the file may have contained fields and types that are not registered with bravado. Although this does not directly affect the API spec's ability to function, logging can become very cluttered, as whenever bravado encounters an unregistered field, it throws a warning message. 
+  	 ---
+  	 When a specification swagger file is first broken out into *definition* and *paths* directories using `convert`, the file may have contained fields and types that are not registered with bravado. Although this does not directly affect the API spec's ability to function, logging can become very cluttered, as whenever bravado encounters an unregistered field, it throws a warning message. 
   
-  	Running the `lint` command takes a path to a specd directory as its only argument. When it is executed, `lint` will recursively traverse every single path and definition .json/.yaml file in the specd directory and remove any lines that will cause bravado to throw warnings.
-    
-    <h5>Example</h5>
-    ```bash
-    $ specd lint ~/petstore/specs
-    ```
+  	 Running the `lint` command takes a path to a specd directory as its only argument. When it is executed, `lint` will recursively traverse every single path and definition .json/.yaml file in the specd directory and remove any lines that will cause bravado to throw warnings.
+     <h5>Example</h5>
+     ```bash
+     $ specd lint ~/petstore/specs
+     ```
 -	Validate Specd Directory: `validate`
-	---
-    `validate` takes no arguments, and will verify if your current working directory is a valid specd directory 
-    ```bash
-    $ cd ~/petstore/specs
-    $ specd
-    > Successfully validated.
-    ```
+	 ---
+     `validate` takes no arguments, and will verify if your current working directory is a valid specd directory 
+     ```bash
+     $ cd ~/petstore/specs
+     $ specd
+     > Successfully validated.
+     ```
