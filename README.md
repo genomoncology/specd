@@ -16,13 +16,13 @@ $ pip install specd --upgrade
 	```bash
 	.
 	├── definitions
-    │ 	├── Foo.yaml
-    │   └── Bar.yaml
+	│   ├── Foo.yaml
+	│   └── Bar.yaml
 	└── paths
     	├── foo
-    	│       └── {fooId}
-    	│			├── get.yaml
-    	│			└── post.yaml
+    	│   └── {fooId}
+    	│	├── get.yaml
+    	│	└── post.yaml
 		├── etc ...
     	└── etc ...
 	```
