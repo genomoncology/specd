@@ -158,6 +158,7 @@ $ pip install specd --upgrade
     | `-t, --target` | specify the target API endpoints that you wish to be displayed | `None`  | Comma separated list of `str` |
 
 	<h5>Example</h5>
+	
     ```bash
     $ cd ~/petstore/specs
     $ specd swagger --name="swagger_petstore"
