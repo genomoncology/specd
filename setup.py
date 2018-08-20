@@ -42,6 +42,7 @@ setup(
         "bravado-core == 5.0.4",
         "bravado-asyncio == 1.0.0",
         "stringcase >= 1.2.0",
+        "jsonschema[format]",
     ],
 
     setup_requires=[
