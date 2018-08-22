@@ -222,3 +222,35 @@ def test_auto_linting():
                 assert item["format"] != "gender"
                 assert item["format"] != "uuid"
             assert "read_only" not in item
+
+
+def test_new_spec():
+    with tempfile.TemporaryDirectory() as output_specd:
+        input_file = os.path.join(
+            os.path.dirname(__file__), "../src/specd/new_specd.yaml"
+        )
+        tasks.convert_file_to_specd(
+            input_file, output_specd, format="yaml", case="camel"
+        )
+
+        spec_dir = SpecDir(output_specd)
+        assert spec_dir.format == "yaml"
+
+        meta = utils.file_path_to_dict(input_file)
+        paths = meta.pop("paths")
+        definitions = meta.pop("definitions")
+        assert spec_dir.meta.read() == meta
+
+        # check definitions
+        for definition in spec_dir.definitions():
+            assert definition.name in definitions
+            assert definition.read() == definitions.get(definition.name)
+
+        # check paths
+        assert len(paths) == 2
+        for path in spec_dir.paths():
+            assert path.url in paths
+            path_spec = paths.get(path.url)
+            for operation in path.operations():
+                assert operation.method in path_spec
+                assert operation.read() == path_spec.get(operation.method)

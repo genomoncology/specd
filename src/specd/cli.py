@@ -115,5 +115,21 @@ def lint(directory):
     tasks.auto_linting(directory)
 
 
+@cli.command()
+@click.argument(
+    "output_specd", type=click.Path(file_okay=False, resolve_path=True)
+)
+@click.option(
+    "--case", "-c", type=click.Choice(["camel", "snake"]), default="snake"
+)
+@click.option(
+    "--format", "-f", type=click.Choice(["json", "yaml"]), default="yaml"
+)
+def new(output_specd, case, format):
+    """creates a new specd project using a simple sample spec JSON"""
+    input_file = os.path.join(os.path.dirname(__file__), "./new_spec.yaml")
+    tasks.convert_file_to_specd(input_file, output_specd, format, case)
+
+
 if __name__ == "__main__":
     cli()
