@@ -27,7 +27,7 @@ ipython = "*"
 black = "==18.6b4"
 pytest-asyncio = "*"
 pytest-socket = "*"
-twine = "*"
+twine = ">=1.5.0"
 
 [requires]
 python_version = "3.6"

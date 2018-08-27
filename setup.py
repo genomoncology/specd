@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.2.1',
+    version='0.2.3',
 
     package_dir={
         '': 'src'
@@ -27,6 +27,7 @@ setup(
     include_package_data=True,
 
     package_data={
+        '': ['*.yaml'],
     },
 
     install_requires=[
