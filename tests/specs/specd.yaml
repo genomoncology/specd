@@ -12,3 +12,18 @@ produces:
 schemes:
 - http
 swagger: '2.0'
+parameters:
+  page_size:
+    description: Page size
+    format: int32
+    in: query
+    name: page_size
+    required: false
+    type: integer
+  page_number:
+    description: Page number
+    format: int32
+    in: query
+    name: page_number
+    required: false
+    type: integer

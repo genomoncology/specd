@@ -44,4 +44,4 @@ publish: do_publish clean
 do_publish:
 	pipenv run python setup.py sdist
 	pipenv run python setup.py bdist_wheel --universal
-	pipenv run twine upload -r pypi dist/*
+	twine upload -r pypi dist/*

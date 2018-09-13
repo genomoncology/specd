@@ -17,7 +17,7 @@ def add_swagger(app, host, name, target):
     UI_URL = "/ui"
     config = {
         "app_name": name or "Swagger UI",
-        "defaultModelsExpandDepth": -1
+        "defaultModelsExpandDepth": 1
     }
 
     swagger_blueprint = get_swaggerui_blueprint(

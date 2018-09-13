@@ -85,6 +85,10 @@ class SpecDir(object):
             # (clever code warning) support descent into lists
             value_ = value_ if isinstance(value_, list) else [value_]
 
+            # cannot do this due to embedded definitions in body, etc.
+            # if key == "parameters":
+            #     continue
+
             for value in value_:
                 if key == "$ref" and isinstance(value, str) and value:
                     yield value.split("/")[-1]
