@@ -17,12 +17,12 @@ def add_swagger(app, host, name, target):
     UI_URL = "/ui"
     config = {
         "app_name": name or "Swagger UI",
-        "defaultModelsExpandDepth": 1
+        "defaultModelsExpandDepth": 1,
+        "displayOperationId": 1,
+        "docExpansion": "none",
     }
 
-    swagger_blueprint = get_swaggerui_blueprint(
-        UI_URL, DOC_URL, config=config
-    )
+    swagger_blueprint = get_swaggerui_blueprint(UI_URL, DOC_URL, config=config)
 
     @app.route("/")
     def main():
