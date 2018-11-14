@@ -14,7 +14,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 setup(
     name="specd",
     version='0.8.0',
-    author = "Ian Maurer",
+    author="Ian Maurer",
     author_email='ian@genomoncology.com',
 
     package_dir={
