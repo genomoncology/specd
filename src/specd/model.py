@@ -17,8 +17,8 @@ class FileFormat(enum.Enum):
 
 class SpecDir(object):
 
-    PATH_PATTERN = re.compile("^[\w/{}._]+$")
-    DEF_PATTERN = re.compile("^[\w_]+$")
+    PATH_PATTERN = re.compile(r"^[\w/{}._]+$")
+    DEF_PATTERN = re.compile(r"^[\w_]+$")
 
     def __init__(self, root: str, default_format: str = None):
         self.root: str = os.path.abspath(root)
@@ -50,7 +50,7 @@ class SpecDir(object):
         file_handle.close()
 
     def read_file(self, file_path: str):
-        file_handle = open(file_path, "rU")
+        file_handle = open(file_path, "r")
         content_str = file_handle.read()
         file_handle.close()
         return self.to_spec(content_str)
@@ -84,10 +84,6 @@ class SpecDir(object):
         for (key, value_) in spec.items():
             # (clever code warning) support descent into lists
             value_ = value_ if isinstance(value_, list) else [value_]
-
-            # cannot do this due to embedded definitions in body, etc.
-            # if key == "parameters":
-            #     continue
 
             for value in value_:
                 if key == "$ref" and isinstance(value, str) and value:

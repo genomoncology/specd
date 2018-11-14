@@ -1,7 +1,11 @@
 operationId: listPets
 parameters:
-  - $ref: '#/parameters/page_size'
-  - $ref: '#/parameters/page_number'
+- description: How many items to return at one time (max 100)
+  format: int32
+  in: query
+  name: limit
+  required: false
+  type: integer
 responses:
   '200':
     description: An paged array of pets

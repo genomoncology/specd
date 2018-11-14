@@ -99,7 +99,7 @@ def make_http_client(loop=None, verify_ssl=True, limit_per_host=10):
 
     if not verify_ssl:
         connector = aiohttp.TCPConnector(
-            verify_ssl=verify_ssl, loop=loop, limit_per_host=limit_per_host
+            ssl=verify_ssl, loop=loop, limit_per_host=limit_per_host
         )
         http_client.client_session._connector = connector
 

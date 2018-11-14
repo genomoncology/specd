@@ -10,7 +10,7 @@ def str_to_dict(content_str: str) -> dict:
 
 
 def file_path_to_dict(input_file_path: str) -> dict:
-    content_str = open(input_file_path, "rU").read()
+    content_str = open(input_file_path, "r").read()
     return str_to_dict(content_str)
 
 

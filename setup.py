@@ -13,7 +13,9 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.2.8',
+    version='0.8.0',
+    author = "Ian Maurer",
+    author_email='ian@genomoncology.com',
 
     package_dir={
         '': 'src'
@@ -52,7 +54,7 @@ setup(
 
     license="MIT license",
 
-    keywords='',
+    keywords="Swagger Open API Specification Bravado",
     description="specd",
     long_description="%s\n\n%s" % (readme, history),
 
@@ -63,12 +65,11 @@ setup(
     },
 
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
-        'Framework :: Pytest',
     ],
 )
