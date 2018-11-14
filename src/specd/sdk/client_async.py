@@ -92,13 +92,15 @@ class CallableOperation(client.CallableOperation):
         return super(CallableOperation, self).__call__(**op_kwargs)
 
 
-def make_http_client(loop=None, verify_ssl=True):
+def make_http_client(loop=None, verify_ssl=True, limit_per_host=10):
     run_mode = RunMode.FULL_ASYNCIO
     loop = loop or asyncio.get_event_loop()
     http_client = client.AsyncioClient(run_mode=run_mode, loop=loop)
 
     if not verify_ssl:
-        connector = aiohttp.TCPConnector(verify_ssl=verify_ssl, loop=loop)
+        connector = aiohttp.TCPConnector(
+            ssl=verify_ssl, loop=loop, limit_per_host=limit_per_host
+        )
         http_client.client_session._connector = connector
 
     return http_client

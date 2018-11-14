@@ -17,8 +17,8 @@ class FileFormat(enum.Enum):
 
 class SpecDir(object):
 
-    PATH_PATTERN = re.compile("^[\w/{}._]+$")
-    DEF_PATTERN = re.compile("^[\w_]+$")
+    PATH_PATTERN = re.compile(r"^[\w/{}._]+$")
+    DEF_PATTERN = re.compile(r"^[\w_]+$")
 
     def __init__(self, root: str, default_format: str = None):
         self.root: str = os.path.abspath(root)
@@ -50,7 +50,7 @@ class SpecDir(object):
         file_handle.close()
 
     def read_file(self, file_path: str):
-        file_handle = open(file_path, "rU")
+        file_handle = open(file_path, "r")
         content_str = file_handle.read()
         file_handle.close()
         return self.to_spec(content_str)

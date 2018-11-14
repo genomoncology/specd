@@ -20,6 +20,7 @@ def create_sdk(
     verify_ssl=True,
     loop=None,
     schemes=None,
+    limit_per_host=10,
 ):
     """ Convenience method for creating an SDK client. """
     spec_dict = create_spec_dict(
@@ -28,7 +29,9 @@ def create_sdk(
 
     client_ = client_async if async_enabled else client_sync
 
-    http_client = client_.make_http_client(verify_ssl=verify_ssl, loop=loop)
+    http_client = client_.make_http_client(
+        verify_ssl=verify_ssl, loop=loop, limit_per_host=limit_per_host
+    )
 
     # Apply bravado config defaults
     config = dict(CONFIG_DEFAULTS, **(config or {}))
