@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.8.0',
+    version='0.8.1',
     author="Ian Maurer",
     author_email='ian@genomoncology.com',
 

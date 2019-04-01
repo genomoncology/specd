@@ -110,7 +110,7 @@ class SpecDir(object):
 
             if path_spec:
                 # to allow for trailing forward slash, include #fs at end
-                url = path.url.replace("#fs", "/")
+                url = path.url.replace("#fs", "/").replace("\\", "/")
                 paths[url] = path_spec
 
         return paths, found_definitions
