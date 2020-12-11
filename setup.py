@@ -46,7 +46,8 @@ setup(
         "bravado-asyncio == 1.0.0",
         "stringcase >= 1.2.0",
         "jsonschema[format]",
-        "urllib3 >= 1.24.2"
+        "urllib3 >= 1.24.2",
+        "Jinja2 >= 2.10.1",
     ],
 
     setup_requires=[

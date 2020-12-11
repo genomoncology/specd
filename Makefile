@@ -8,6 +8,10 @@ white:
 	pipenv run white ./tests/*.py
 	pipenv run white ./src/
 
+update:
+	PIPENV_IGNORE_VIRTUALENVS=1 pipenv update --dev
+	PIPENV_IGNORE_VIRTUALENVS=1 pipenv lock -r --dev-only > dev-requirements.txt
+
 
 #----------
 # clean

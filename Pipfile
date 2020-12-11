@@ -4,29 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-click = "*"
-flask-swagger-ui = "*"
-swagger-spec-validator = "*"
-pyyaml = ">=1.24.2"
-dictdiffer = "*"
-inflect = "*"
-related = "*"
-bravado-core = "==5.0.4"
-aiobravado = "==0.9.3"
-bravado = "==10.0.0"
-bravado-asyncio = "==1.0.0"
-stringcase = "*"
-urllib3 = ">=1.24.2"
-Jinja2 = ">=2.10.1"
+specd = {editable = true, path = "./"}
 
 [dev-packages]
 pytest = "*"
-white = "*"
 "pytest-flake8" = "*"
 pytest-cov = "*"
 pytest-mccabe = "*"
-ipython = "*"
-black = "==18.6b4"
 pytest-asyncio = "*"
 pytest-socket = "*"
 
