@@ -13,7 +13,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name="specd",
-    version='0.8.1',
+    version='0.8.2',
     author="Ian Maurer",
     author_email='ian@genomoncology.com',
 
@@ -36,7 +36,7 @@ setup(
         "click >= 6.7",
         "flask-swagger-ui >= 3.6.0",
         "swagger-spec-validator >= 2.1.0",
-        "PyYAML >= 3.12",
+        "PyYAML >= 4.2b1",
         "dictdiffer >= 0.7.1",
         "related >= 0.6.3",
         "inflect >= 0.3.1",
@@ -46,6 +46,8 @@ setup(
         "bravado-asyncio == 1.0.0",
         "stringcase >= 1.2.0",
         "jsonschema[format]",
+        "urllib3 >= 1.24.2",
+        "Jinja2 >= 2.10.1",
     ],
 
     setup_requires=[
