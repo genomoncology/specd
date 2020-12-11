@@ -39,7 +39,7 @@ class SpecDir(object):
 
     def to_spec(self, content: str) -> dict:
         if self.format == FileFormat.yaml.value:
-            return yaml.load(content)
+            return yaml.load(content, Loader=yaml.FullLoader)
         else:
             return json.loads(content)
 
