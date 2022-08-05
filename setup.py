@@ -38,7 +38,7 @@ setup(
         "swagger-spec-validator >= 2.1.0",
         "PyYAML >= 4.2b1",
         "dictdiffer >= 0.7.1",
-        "related >= 0.6.3",
+        "related >= 0.7.3",
         "inflect >= 0.3.1",
         "aiobravado == 0.9.3",
         "bravado == 10.0.0",
