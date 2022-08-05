@@ -59,6 +59,7 @@ setup(
     keywords="Swagger Open API Specification Bravado",
     description="specd",
     long_description="%s\n\n%s" % (readme, history),
+    long_description_content_type="text/markdown",
 
     entry_points={
         'console_scripts': [
